@@ -27,7 +27,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 SECRET_KEY = os.environ.get('SECRET_KEY','dev')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog',
+    'blog.templatetags',
     'crispy_forms'
 ]
 

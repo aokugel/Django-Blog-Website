@@ -7,6 +7,10 @@ class PostList(generic.ListView):
     queryset = Post.objects.filter(status=1).order_by('-created_on')
     template_name = 'index.html'
     paginate_by = 3
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['last_post'] = Post.objects.filter(status=1).order_by('created_on')[0]
+        return context
 
 #class PostDetail(generic.DetailView):
     #model = Post
@@ -41,6 +45,3 @@ class ContactView(generic.TemplateView):
     template_name = 'contact.html'
 
 
-
-
-# Create your views here.
