@@ -9,7 +9,8 @@ class PostList(generic.ListView):
     paginate_by = 3
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['last_post'] = Post.objects.filter(status=1).order_by('created_on')[0]
+        if Post.objects.filter(status=1).order_by('created_on'):
+            context['last_post'] = Post.objects.filter(status=1).order_by('created_on')[0]
         return context
 
 #class PostDetail(generic.DetailView):
