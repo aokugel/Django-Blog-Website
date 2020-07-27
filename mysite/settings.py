@@ -27,9 +27,9 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 SECRET_KEY = os.environ.get('SECRET_KEY','dev')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["anthonykugel.com", "www.anthonykugel.com"]
 
 
 # Application definition
@@ -145,5 +145,9 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
 STATIC_ROOT  = '/var/www/static'
 
 #Security settings
-SESSION_COOKIE_SECURE = False
-CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_SECONDS = 3600
+SECURE_HSTS_PRELOAD = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
