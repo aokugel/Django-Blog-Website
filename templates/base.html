@@ -8,24 +8,19 @@
     <head>
         <title>Blog Symposium</title>
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
-        <!-- <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet"> -->
-        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;700&display=swap" rel="stylesheet">
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" 
             integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" 
             crossorigin="anonymous">
+        <link rel="stylesheet" href="https://bootswatch.com/4/slate/bootstrap.min.css">
     </head>
 
     <body>
         <style>
         body {
-            font-family: 'IBM Plex Sans', sans-serif;
             font-size: 17px;
-            background-color: #fdfdfd;
-        }
-        .shadow {
-            box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.1);
+            background-color: #e9ecef;
         }
         .btn-danger {
             color: #fff;
@@ -33,23 +28,22 @@
             border-color: #dc281e;
         }
         .masthead {
-            background: #3398E1;
+            background: #5bc0de;
             height: auto;
             padding-bottom: 15px;
-            box-shadow: 0 16px 48px #E3E7EB;
             padding-top: 10px;
         }
     </style>
 
         <!-- Navigation -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light shadow" id="mainNav">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow" id="mainNav">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{% url 'home' %}">Django Unchained</a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                     aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
+                <div class="collapse navbar-collapse " id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item text-black">
                         {% if post_list %}
