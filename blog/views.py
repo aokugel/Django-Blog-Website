@@ -22,6 +22,9 @@ def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
     comments = post.comments.filter(active=True)
     new_comment = None
+    context ={}
+    if Post.objects.filter(status=1):
+        context["last_post"] = Post.objects.filter(status=1).order_by('created_on')[0]
     # Comment posted
     if request.method == 'POST':
         comment_form = CommentForm(data=request.POST)
@@ -39,10 +42,17 @@ def post_detail(request, slug):
     return render(request, template_name, {'post': post,
                                            'comments': comments,
                                            'new_comment': new_comment,
-                                           'comment_form': comment_form})
+                                           'comment_form': comment_form,
+                                           'last_post': context['last_post']})
     
 
-class ContactView(generic.TemplateView):
+class ContactView(generic.ListView):
     template_name = 'contact.html'
+    queryset = Post.objects.filter(status=1).order_by('-created_on')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if Post.objects.filter(status=1).order_by('created_on'):
+            context['last_post'] = Post.objects.filter(status=1).order_by('created_on')[0]
+        return context
 
 
