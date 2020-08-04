@@ -25,7 +25,7 @@ def post_detail(request, slug):
     last_post = None
     if Post.objects.filter(status=1):
         last_post = Post.objects.filter(status=1).order_by('created_on')[0]
-        print('test')
+        print('So its correctly assigning the last_post variable')
     # Comment posted
     if request.method == 'POST':
         comment_form = CommentForm(data=request.POST)
