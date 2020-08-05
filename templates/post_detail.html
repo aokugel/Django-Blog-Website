@@ -12,6 +12,7 @@
     </div>
     {% block sidebar %} {% include 'sidebar.html' %} {% endblock sidebar %}
 
+    {% if comments %}
     <div class="col-md-8 card mb-4  mt-3 ">
       <div class="card-body">
         <!-- comments -->
@@ -30,6 +31,7 @@
         {% endfor %}
       </div>
     </div>
+    {% endif %}
     <div class="col-md-8 card mb-4  mt-3 ">
       <div class="card-body">
         {% if new_comment %}
@@ -41,7 +43,7 @@
         <form method="post" style="margin-top: 1.3em;">
           {{ comment_form | crispy }}
           {% csrf_token %}
-          <button type="submit" class="btn btn-primary  btn-lg">Submit</button>
+          <button type="submit" class="btn btn-info  btn-lg">Submit</button>
         </form>
         {% endif %}
       </div>
