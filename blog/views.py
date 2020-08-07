@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from .models import Post, Comment
 from .forms import CommentForm
+from rest_framework import viewsets
+from .serializers import PostSerializer
 
 class PostList(generic.ListView):
     queryset = Post.objects.filter(status=1).order_by('-created_on')
@@ -55,5 +57,9 @@ class ContactView(generic.ListView):
         if Post.objects.filter(status=1).order_by('created_on'):
             context['last_post'] = Post.objects.filter(status=1).order_by('created_on')[0]
         return context
+
+class PostViewSet(viewsets.ModelViewSet):
+    queryset = Post.objects.filter(status=1).order_by('-created_on')
+    serializer_class = PostSerializer
 
 
