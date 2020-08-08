@@ -59,7 +59,7 @@ class ContactView(generic.ListView):
         return context
 
 class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.filter(status=1).order_by('-created_on')
+    queryset = Post.objects.order_by('-created_on')
     serializer_class = PostSerializer
 
 
