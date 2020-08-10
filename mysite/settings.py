@@ -24,9 +24,9 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 SECRET_KEY = os.environ.get('SECRET_KEY','dev')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ["anthonykugel.com", "www.anthonykugel.com"]
+ALLOWED_HOSTS = ["anthonykugel.com", "www.anthonykugel.com", "*"]
 
 
 # Application definition
@@ -144,8 +144,7 @@ STATIC_ROOT  = '/var/www/static'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication'
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
@@ -155,10 +154,10 @@ REST_FRAMEWORK = {
 }
 
 #Security settings
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-SECURE_SSL_REDIRECT = True
-SECURE_HSTS_SECONDS = 3600
-SECURE_HSTS_PRELOAD = True
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_REFERRER_POLICY = "same-origin"
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
+# SECURE_SSL_REDIRECT = True
+# SECURE_HSTS_SECONDS = 3600
+# SECURE_HSTS_PRELOAD = True
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# SECURE_REFERRER_POLICY = "same-origin"
