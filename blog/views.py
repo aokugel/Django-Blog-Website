@@ -3,7 +3,7 @@ from django.views import generic
 from .models import Post, Comment
 from .forms import CommentForm
 from rest_framework import viewsets
-from .serializers import PostSerializer
+from .serializers import PostSerializer, CommentSerializer
 
 class PostList(generic.ListView):
     queryset = Post.objects.filter(status=1).order_by('-created_on')
@@ -61,5 +61,9 @@ class ContactView(generic.ListView):
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.order_by('-created_on')
     serializer_class = PostSerializer
+
+class CommentViewSet(viewsets.ModelViewSet):
+    queryset = Comment.objects.all().order_by('post')
+    serializer_class = CommentSerializer
 
 
