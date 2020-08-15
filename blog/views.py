@@ -15,10 +15,6 @@ class PostList(generic.ListView):
             context['last_post'] = Post.objects.filter(status=1).order_by('created_on')[0]
         return context
 
-#class PostDetail(generic.DetailView):
-    #model = Post
-    #template_name = 'post_detail.html'
-
 def post_detail(request, slug):
     template_name = 'post_detail.html'
     post = get_object_or_404(Post, slug=slug)
