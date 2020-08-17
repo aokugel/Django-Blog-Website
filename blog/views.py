@@ -42,8 +42,7 @@ def post_detail(request, slug):
                                            'comments': comments,
                                            'new_comment': new_comment,
                                            'comment_form': comment_form,
-                                           'last_post': last_post})
-    
+                                           'last_post': last_post})    
 
 class ContactView(generic.ListView):
     template_name = 'contact.html'
@@ -61,5 +60,3 @@ class PostViewSet(viewsets.ModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all().order_by('post')
     serializer_class = CommentSerializer
-
-
