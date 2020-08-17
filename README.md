@@ -11,10 +11,6 @@ This is my django code repository for anthonykugel.com.  The website is written 
 - A sleek and modern design
 - REST Api integration
 
-### Setup & Installation
-Give instructions on how to set up and install your project.
-Link to an installer or release if you have one available.
-
 ### Usage & Details
 The website runs all on aws.  The web layer runs on nginx, which is running in an ec2 instance running ubuntu.  Nginx communiates with django via a unix socket running on gunicorn.
 The database is running on postgresql running on aws rds.  This is a diagram of the architecture:
