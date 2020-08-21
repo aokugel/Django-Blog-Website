@@ -17,8 +17,7 @@ The database is running on postgresql running on aws rds.  This is a diagram of 
 ![Architecture diagram](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/images/con-VPC-sec-grp.png)
 
 ### ChangeLog & Roadmap
-Document what you released and when.
-Lay out your vision for the project’s future. What new features do you want to add? Which bugs do you want to squash
+Eventually I want to leverage ansible to utilize configuration as code within my production environment.
 
 ### Credits
 I would not have been able to make this website with the help of djangocentral.com.  Frontend css and javascript leveraged with https://getbootstrap.com/ and https://bootswatch.com/.
