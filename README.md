@@ -17,7 +17,7 @@ The database is running on postgresql running on aws rds.  This is a diagram of 
 ![Architecture diagram](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/images/con-VPC-sec-grp.png)
 
 ### ChangeLog & Roadmap
-Eventually I want to leverage ansible to utilize configuration as code within my production environment.
+I might eventually incorporate a Dashboard using plotly.  This would be a good way to utilize python's data visualization capabilities.
 
 ### Credits
 I would not have been able to make this website with the help of djangocentral.com.  Frontend css and javascript leveraged with https://getbootstrap.com/ and https://bootswatch.com/.
