@@ -4,6 +4,8 @@ from .models import Post, Comment
 from .forms import CommentForm
 from rest_framework import viewsets
 from .serializers import PostSerializer, CommentSerializer
+import requests
+import os
 
 class PostList(generic.ListView):
     queryset = Post.objects.filter(status=1).order_by('-created_on')
@@ -59,3 +61,14 @@ class PostViewSet(viewsets.ModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all().order_by('post')
     serializer_class = CommentSerializer
+
+def covid_details(request):
+    template_name = 'covid.html'
+    api_key = os.environ.get('API_KEY')
+    json_response = requests.get("https://api.covidactnow.org/v2/country/US.timeseries.json?apiKey={}".format(api_key)).json()
+    actual_timeseries= json_response['actualsTimeseries']
+    dates= actual_timeseries[-31:-1]
+    dates.reverse()
+    context ={}
+    context["dataset"] = dates
+    return render(request, template_name, context)  

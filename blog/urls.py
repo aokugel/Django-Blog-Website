@@ -13,6 +13,8 @@ urlpatterns = [
     path('contact/', views.ContactView.as_view(), name='contact'),
     path('api/', include(router.urls), name='api'),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('covid/', views.covid_details, name='covid' ),
     path('<slug:slug>/', views.post_detail, name='post_detail')
+
     
 ]

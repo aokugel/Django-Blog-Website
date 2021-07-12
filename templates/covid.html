@@ -1,0 +1,53 @@
+{% extends 'base.html' %} {% block content %}
+
+<header class="masthead">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class=" col-md-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h3 class=" site-heading my-4 mt-3 text-white"> Covid-19 statistics from the last 30 days</h3>
+                    <p class="text-light"> This information is dynamically pulled from api.covidactnow.org using a REST API. &nbsp
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 mt-3 left">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title">Covid-19 Statistics</h2>
+                <table class="table table-striped table-bordered">
+                    <thead>
+                      <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Total Cases</th>
+                        <th scope="col">New Cases</th>
+                        <th scope="col">New Deaths</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for data in dataset %}
+                      <tr>
+                        <th scope="row">{{data.date}}</th>
+                        <td>{{ data.cases }}</td>
+                        <td>{{ data.newCases }}</td>
+                        <td>{{ data.newDeaths }}</td>
+                      </tr>
+                        {% endfor %}
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+    </div>
+      {% block sidebar %} 
+      {% include 'sidebar.html' %} 
+      {% endblock sidebar %}
+  </div>
+</div>
+
+{% endblock content %}

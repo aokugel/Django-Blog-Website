@@ -27,6 +27,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'dev')
 DEBUG = False
 
 ALLOWED_HOSTS = ["anthonykugel.com", "www.anthonykugel.com",]
+#ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
