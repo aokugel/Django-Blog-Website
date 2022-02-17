@@ -71,4 +71,6 @@ def covid_details(request):
     dates.reverse()
     context ={}
     context["dataset"] = dates
+    if Post.objects.filter(status=1):
+        context['last_post'] = Post.objects.filter(status=1).order_by('created_on')[0]
     return render(request, template_name, context)  
