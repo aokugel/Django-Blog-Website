@@ -38,11 +38,10 @@ class Comment(models.Model):
         return 'Comment {} by {}'.format(self.body, self.name)
 
 class Author(models.Model):
-    id = models.AutoField(primary_key=True, unique=True)
-    user = models.OneToOneField(
-    settings.AUTH_USER_MODEL,
-    on_delete=models.CASCADE,
-    )
+    # user = models.OneToOneField(
+    # settings.AUTH_USER_MODEL,
+    # on_delete=models.CASCADE,
+    # )
     name = models.CharField(max_length=200, unique=True)
     title = models.CharField(max_length=200, unique=False)
     email = models.EmailField(max_length=200, unique=True)
