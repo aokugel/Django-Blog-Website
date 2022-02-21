@@ -18,25 +18,18 @@
 <div class="container">
   <div class="row">
       <!-- Blog Entries Column -->
-      <div class="col-md-8 mt-3 left">
+        <div class="col-md-8 mt-3 left">
+            {% for author in author_list %}
           <div class="card mb-4">
               <div class="card-body">
-                  <h2 class="card-title">Anthony Kugel</h2>
-                  <p class="card-text text-muted h6">Cloud Engineer</p>
-                  <p class="card-text">email: dummyemail@not.real</p>
-                  <p class="card-text">phone: 555-555-5555</p>
+                  <h2 class="card-title">{{ author.name }}</h2>
+                  <p class="card-text text-muted h6">{{ author.title }}</p>
+                  <p class="card-text">email: {{ author.name }}</p>
+                  <p class="card-text">phone: {{ author.phone }}</p>
                   <a href="https://www.linkedin.com/in/anthony-kugel-672aabb3/" class="btn btn-info">LinkedIn &rarr;</a>
               </div>
           </div>
-          <div class="card mb-4">
-            <div class="card-body">
-                <h2 class="card-title">Kaleigh-Ane Stirling</h2>
-                <p class="card-text text-muted h6">Au Pair</p>
-                <p class="card-text">email: dummyemail@not.real</p>
-                <p class="card-text">phone: 555-555-5555</p>
-                <a href="https://www.linkedin.com/in/kaleigh-stirling-a6508613a/" class="btn btn-info">LinkedIn &rarr;</a>
-            </div>
-        </div>
+        {% endfor %}
       </div>
       {% block sidebar %} 
       {% include 'sidebar.html' %} 

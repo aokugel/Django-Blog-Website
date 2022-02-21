@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Comment
+from .models import Post, Comment, Author
 
 class PostAdmin(admin.ModelAdmin):
     list_display = ('title', 'slug', 'status', 'created_on')
@@ -17,5 +17,10 @@ class CommentAdmin(admin.ModelAdmin):
     actions = ['approve_comment']
     def approve_comment(self, request, queryset):
         queryset.update(active=True)
+
+@admin.register(Author)
+class AuthorAdmin(admin.ModelAdmin):
+    list_display = ('name', 'title', 'email', 'phone')
+
 
 # Register your models here.

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
 
 
 STATUS = (
@@ -35,3 +36,20 @@ class Comment(models.Model):
 
     def __str__(self):
         return 'Comment {} by {}'.format(self.body, self.name)
+
+class Author(models.Model):
+    name = models.CharField(max_length=200, unique=True)
+    # user = models.OneToOneField(
+    #     settings.AUTH_USER_MODEL,
+    #     on_delete=models.CASCADE
+    # )
+    title = models.CharField(max_length=200, unique=True)
+    email = models.EmailField(max_length=200, unique=True)
+    phone = models.CharField(max_length=200, unique=True)
+    linkedIn_url = models.URLField(max_length=200, blank=True)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return self.title

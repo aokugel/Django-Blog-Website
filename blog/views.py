@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
-from .models import Post, Comment
+from .models import Post, Comment, Author
 from .forms import CommentForm
 from rest_framework import viewsets
 from .serializers import PostSerializer, CommentSerializer
@@ -43,8 +43,8 @@ def post_detail(request, slug):
                                            'last_post': pull_last_post()})    
 
 class ContactView(generic.ListView):
+    queryset = Author.objects.order_by('name')
     template_name = 'contact.html'
-    queryset = Post.objects.filter(status=1).order_by('-created_on')
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["last_post"] = pull_last_post()
