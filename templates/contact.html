@@ -26,7 +26,9 @@
                   <p class="card-text text-muted h6">{{ author.title }}</p>
                   <p class="card-text">email: {{ author.email }}</p>
                   <p class="card-text">phone: {{ author.phone }}</p>
+                  {% if author.linkedIn_url %}
                   <a href={{ author.linkedIn_url }} class="btn btn-info">LinkedIn &rarr;</a>
+                  {% endif %}
               </div>
           </div>
         {% endfor %}
