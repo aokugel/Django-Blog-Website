@@ -26,7 +26,7 @@
                   <p class="card-text text-muted h6">{{ author.title }}</p>
                   <p class="card-text">email: {{ author.email }}</p>
                   <p class="card-text">phone: {{ author.phone }}</p>
-                  <a href="https://www.linkedin.com/in/anthony-kugel-672aabb3/" class="btn btn-info">LinkedIn &rarr;</a>
+                  <a href={{ author.linkedIn_url }} class="btn btn-info">LinkedIn &rarr;</a>
               </div>
           </div>
         {% endfor %}
