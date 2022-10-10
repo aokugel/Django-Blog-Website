@@ -5,7 +5,7 @@ charset-normalizer==2.0.12
 Django==3.2.12
 django-crispy-forms==1.13.0
 djangorestframework==3.13.1
-djangorestframework-simplejwt==4.4.0
+djangorestframework-simplejwt>=4.4.0
 gunicorn==20.1.0
 idna==3.3
 pkg_resources==0.0.0
