@@ -24,10 +24,10 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 SECRET_KEY = os.environ.get('SECRET_KEY', 'dev')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ["anthonykugel.com", "www.anthonykugel.com"]
-#ALLOWED_HOSTS = ["*"]
+#ALLOWED_HOSTS = ["anthonykugel.com", "www.anthonykugel.com"]
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -79,23 +79,23 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('DB_NAME', default='djangodb'),
-        'USER':  os.environ.get('DB_USERNAME', default='djangodb_user'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', default=''),
-        'HOST': os.environ.get('DB_HOST', default='localhost'),
-        'PORT': os.environ.get('DB_PORT', default='5432'),
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': os.environ.get('DB_NAME', default='djangodb'),
+#         'USER':  os.environ.get('DB_USERNAME', default='djangodb_user'),
+#         'PASSWORD': os.environ.get('DB_PASSWORD', default=''),
+#         'HOST': os.environ.get('DB_HOST', default='localhost'),
+#         'PORT': os.environ.get('DB_PORT', default='5432'),
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
 
 # Password validation
@@ -155,10 +155,10 @@ REST_FRAMEWORK = {
 }
 
 #Security settings
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-SECURE_SSL_REDIRECT = True
-SECURE_HSTS_SECONDS = 3600
-SECURE_HSTS_PRELOAD = True
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_REFERRER_POLICY = "same-origin"
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
+# SECURE_SSL_REDIRECT = True
+# SECURE_HSTS_SECONDS = 3600
+# SECURE_HSTS_PRELOAD = True
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# SECURE_REFERRER_POLICY = "same-origin"
