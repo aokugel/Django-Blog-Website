@@ -1,0 +1,25 @@
+version: "3.9"
+   
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=djangodb
+      - POSTGRES_USER=djangodb_user
+      - POSTGRES_PASSWORD=postgres
+  web:
+    build: .
+    command: #python manage.py makemigrations && sleep 5  && python manage.py migrate&& 
+      python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code:z
+    ports:
+      - "8000:8000"
+    environment:
+      - POSTGRES_NAME=djangodb
+      - POSTGRES_USER=djangodb_user
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - db
