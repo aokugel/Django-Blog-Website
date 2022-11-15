@@ -20,7 +20,7 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag aokugel/test-django-web-app:$(date +%s)
+      run: docker build . --file Dockerfile --tag aokugel/test-django-web-app:latest
 
     - name: push the docker image
-      run: docker push aokugel/test-django-web-app:$(date +%s)
+      run: docker push aokugel/test-django-web-app:latest
