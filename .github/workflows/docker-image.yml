@@ -19,8 +19,11 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag aokugel/test-django-web-app:latest
-
-    - name: push the docker image
-      run: docker push aokugel/test-django-web-app:latest
+    - id: commit
+      uses: pr-mpt/actions-commit-hash@v2
+    - uses: docker/setup-buildx-action@v1
+    - name: Build and push
+      uses: docker/build-push-action@v3
+      with:
+        push: true
+        tags: ${{ steps.commit.outputs.short }}
