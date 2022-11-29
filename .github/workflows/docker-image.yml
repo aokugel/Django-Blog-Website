@@ -26,4 +26,6 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: ${{ steps.commit.outputs.short }}
+        tags: user/app:latest
+
+#${{ steps.commit.outputs.short }}
