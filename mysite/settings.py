@@ -140,8 +140,11 @@ STATIC_URL = '/static/'
 #Location of static files
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
 
+#for regular nginx
+#STATIC_ROOT  = '/var/www/static'
 
-STATIC_ROOT  = '/var/www/static'
+#for kubernetes
+STATIC_ROOT  = '/static'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
