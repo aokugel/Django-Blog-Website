@@ -27,4 +27,4 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: aokugel/test-django-web-app:${{ steps.commit.outputs.short }}
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/test-django-web-app:${{ steps.commit.outputs.short }}, ${{ secrets.DOCKERHUB_USERNAME }}/test-django-web-app:latest
