@@ -2,7 +2,7 @@ asgiref==3.5.2
 certifi==2022.9.24
 chardet==5.0.0
 charset-normalizer==2.1.1
-Django==4.1.2
+Django==4.1.6
 django-crispy-forms==1.14.0
 djangorestframework==3.14.0
 djangorestframework-simplejwt>=4.4.0
