@@ -28,7 +28,7 @@ jobs:
       with:
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/test-django-web-app:${{ steps.commit.outputs.short }}, ${{ secrets.DOCKERHUB_USERNAME }}/test-django-web-app:latest
-        secrets: | 
-          "BLOB_STATIC_KEY=${{ secrets.BLOB_STATIC_KEY }}"
-          "BLOB_MEDIA_KEY=${{ secrets.BLOB_MEDIA_KEY }}"
-          "AZURE_STORAGE_ACCOUNT=${{ secrets.AZURE_STORAGE_ACCOUNT }}"
+        # secrets: | 
+        #   "BLOB_STATIC_KEY=${{ secrets.BLOB_STATIC_KEY }}"
+        #   "BLOB_MEDIA_KEY=${{ secrets.BLOB_MEDIA_KEY }}"
+        #   "AZURE_STORAGE_ACCOUNT=${{ secrets.AZURE_STORAGE_ACCOUNT }}"
