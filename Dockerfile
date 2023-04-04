@@ -10,5 +10,6 @@ COPY . /code/
 RUN --mount=type=secret,id=AZURE_STORAGE_ACCOUNT
 RUN --mount=type=secret,id=BLOB_MEDIA_KEY
 RUN --mount=type=secret,id=BLOB_STATIC_KEY
+RUN printenv
 
 RUN python manage.py collectstatic --noinput
