@@ -24,7 +24,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 SECRET_KEY = os.environ.get('SECRET_KEY', 'dev')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # ALLOWED_HOSTS = ["anthonykugel.com", "www.anthonykugel.com"]
 ALLOWED_HOSTS = ["*"]
@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'blog',
     'blog.templatetags',
     'crispy_forms',
-    'rest_framework'
+    'rest_framework',
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -79,23 +80,23 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('DB_NAME', default='djangodb'),
-        'USER':  os.environ.get('DB_USERNAME', default='djangodb_user'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', default='postgres'),
-        'HOST': os.environ.get('DB_HOST', default='db'),
-        'PORT': os.environ.get('DB_PORT', default='5432'),
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': os.environ.get('DB_NAME', default='djangodb'),
+#         'USER':  os.environ.get('DB_USERNAME', default='djangodb_user'),
+#         'PASSWORD': os.environ.get('DB_PASSWORD', default='postgres'),
+#         'HOST': os.environ.get('DB_HOST', default='db'),
+#         'PORT': os.environ.get('DB_PORT', default='5432'),
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
 
 # Password validation
@@ -144,7 +145,18 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
 #STATIC_ROOT  = '/var/www/static'
 
 #for kubernetes
-STATIC_ROOT  = '/static'
+#STATIC_ROOT  = '/static'
+
+DEFAULT_FILE_STORAGE = 'blog.custom_azure.AzureMediaStorage'
+STATICFILES_STORAGE = 'blog.custom_azure.AzureStaticStorage'
+
+STATIC_LOCATION = "static"
+MEDIA_LOCATION = "media"
+
+AZURE_ACCOUNT_NAME = "djangostoracc1234"
+AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
+STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
+MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
