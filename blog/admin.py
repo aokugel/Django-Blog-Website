@@ -23,4 +23,3 @@ class AuthorAdmin(admin.ModelAdmin):
     list_display = ('name', 'title', 'email', 'phone')
 
 
-# Register your models here.
