@@ -24,7 +24,7 @@
                 <div class="card-body">
                     <h2 class="card-title">{{ post.title }}</h2>
                     <p class="card-text text-muted h6">{{ post.author }} | {{ post.created_on}} </p>
-                    <p class="card-text">{{post.content|truncatechars_html:280 }}</p>
+                    <p class="card-text">{{post.content|truncatechars_html:280|safe }}</p>
                     <a href="{% url 'post_detail' post.slug  %}" class="btn btn-info">Read More &rarr;</a>
                 </div>
             </div>
