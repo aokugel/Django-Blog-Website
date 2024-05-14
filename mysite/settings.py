@@ -24,7 +24,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 SECRET_KEY = os.environ.get('SECRET_KEY', 'dev')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # ALLOWED_HOSTS = ["anthonykugel.com", "www.anthonykugel.com"]
 ALLOWED_HOSTS = ["*"]
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'blog',
     'blog.templatetags',
     'crispy_forms',
+    'crispy_bootstrap4',
     'rest_framework',
     'storages'
 ]
@@ -145,7 +146,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
 #STATIC_ROOT  = '/var/www/static'
 
 #for kubernetes
-#STATIC_ROOT  = '/static'
+STATIC_ROOT  = '/static'
 
 DEFAULT_FILE_STORAGE = 'blog.custom_azure.AzureMediaStorage'
 STATICFILES_STORAGE = 'blog.custom_azure.AzureStaticStorage'
@@ -155,8 +156,13 @@ MEDIA_LOCATION = "media"
 
 AZURE_ACCOUNT_NAME = os.environ.get('AZURE_STORAGE_ACCOUNT', '')
 AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
+#For blob storage
 STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
 MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
+
+# #for local
+# STATIC_URL = '/static/'
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -177,3 +183,24 @@ REST_FRAMEWORK = {
 # SECURE_HSTS_PRELOAD = True
 # SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 # SECURE_REFERRER_POLICY = "same-origin"
+
+
+
+
+
+
+
+
+
+
+### for reference ignore
+# STATIC_URL = '/static/'
+
+# #Location of static files
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
+
+# #for regular nginx
+# #STATIC_ROOT  = '/var/www/static'
+
+# #for kubernetes
+# STATIC_ROOT  = '/static'

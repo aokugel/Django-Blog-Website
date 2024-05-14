@@ -53,7 +53,10 @@ class ContactView(generic.ListView):
 def covid_details(request):
     template_name = 'covid.html'
     api_key = os.environ.get('API_KEY')
-    json_response = requests.get("https://api.covidactnow.org/v2/country/US.timeseries.json?apiKey={}".format(api_key)).json()
+    r = requests.get("https://api.covidactnow.org/v2/country/US.timeseries.json?apiKey={}".format(api_key))
+    if r.status_code in range(400, 600):
+        print(r.content, api_key)
+    json_response = r.json()
     context = {
         "dataset": json_response['actualsTimeseries'][:-30:-1],
         "last_post": pull_last_post()
