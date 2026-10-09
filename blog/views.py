@@ -19,7 +19,7 @@ class PostList(generic.ListView):
 
 def post_detail(request, slug):
     template_name = 'post_detail.html'
-    post = get_object_or_404(Post, slug=slug)
+    post = get_object_or_404(Post, slug=slug, status=1)
     comments = post.comments.filter(active=True)
     new_comment = None
     # Comment posted
@@ -62,7 +62,7 @@ def covid_details(request):
 
 
 class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.order_by('-created_on')
+    queryset = Post.objects.filter(status=1).order_by('-created_on')
     serializer_class = PostSerializer
 
 class CommentViewSet(viewsets.ModelViewSet):

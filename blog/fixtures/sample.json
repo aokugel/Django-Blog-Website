@@ -1,0 +1,272 @@
+[
+  {
+    "model": "auth.user",
+    "pk": 900,
+    "fields": {
+      "username": "sample-author",
+      "first_name": "Sample",
+      "last_name": "Author",
+      "password": "!unusable",
+      "is_active": true,
+      "date_joined": "2026-01-01T12:00:00Z"
+    }
+  },
+  {
+    "model": "blog.author",
+    "pk": 900,
+    "fields": {
+      "user": 900,
+      "name": "Sample Author",
+      "title": "Cloud engineer",
+      "email": "sample-author@example.com",
+      "phone": "555-0100",
+      "linkedIn_url": "https://www.linkedin.com/"
+    }
+  },
+  {
+    "model": "blog.post",
+    "pk": 900,
+    "fields": {
+      "title": "Sample: rich formatting",
+      "slug": "sample-rich-formatting",
+      "author": 900,
+      "content": "<p>This post exercises the typography styles: <strong>bold</strong>, <em>italic</em>, <a href=\"https://www.djangoproject.com/\">a link</a>, and <code>inline code</code>.</p>\n<h2>A second-level heading</h2>\n<p>A paragraph long enough to wrap on a phone screen, so line length, line height, and spacing between blocks can be judged at both 375px and 1280px widths.</p>\n<ul><li>An unordered list item</li><li>Another item with <code>code</code></li></ul>\n<ol><li>First step</li><li>Second step</li></ol>\n<blockquote><p>A blockquote, to check its border and contrast in light and dark mode.</p></blockquote>\n<h3>A code block</h3>\n<pre><code>def post_detail(request, slug):\n    post = get_object_or_404(Post, slug=slug, status=1)\n    return render(request, \"post_detail.html\", {\"post\": post})</code></pre>\n<p><img src=\"/static/img/favicon.ico\" alt=\"Site favicon\"></p>\n<table><thead><tr><th>Column</th><th>Value</th></tr></thead><tbody><tr><td>Rows</td><td>2</td></tr><tr><td>Purpose</td><td>Table styling</td></tr></tbody></table>",
+      "status": 1,
+      "created_on": "2026-01-02T12:00:00Z",
+      "updated_on": "2026-01-02T12:00:00Z"
+    }
+  },
+  {
+    "model": "blog.post",
+    "pk": 901,
+    "fields": {
+      "title": "Sample: a short post",
+      "slug": "sample-short-post",
+      "author": 900,
+      "content": "<p>One short paragraph.</p>",
+      "status": 1,
+      "created_on": "2026-01-03T12:00:00Z",
+      "updated_on": "2026-01-03T12:00:00Z"
+    }
+  },
+  {
+    "model": "blog.post",
+    "pk": 902,
+    "fields": {
+      "title": "Sample: a deliberately long title that has to wrap across several lines on a narrow phone screen",
+      "slug": "sample-long-title",
+      "author": 900,
+      "content": "<p>Checks heading wrapping on cards and the post page.</p>",
+      "status": 1,
+      "created_on": "2026-01-04T12:00:00Z",
+      "updated_on": "2026-01-04T12:00:00Z"
+    }
+  },
+  {
+    "model": "blog.post",
+    "pk": 903,
+    "fields": {
+      "title": "Sample: plain text",
+      "slug": "sample-plain-text",
+      "author": 900,
+      "content": "Content with no HTML tags at all, as some older posts may have.",
+      "status": 1,
+      "created_on": "2026-01-05T12:00:00Z",
+      "updated_on": "2026-01-05T12:00:00Z"
+    }
+  },
+  {
+    "model": "blog.post",
+    "pk": 904,
+    "fields": {
+      "title": "Sample: fifth post",
+      "slug": "sample-fifth-post",
+      "author": 900,
+      "content": "<p>Five published posts make the home page paginate (4 per page).</p>",
+      "status": 1,
+      "created_on": "2026-01-06T12:00:00Z",
+      "updated_on": "2026-01-06T12:00:00Z"
+    }
+  },
+  {
+    "model": "blog.post",
+    "pk": 905,
+    "fields": {
+      "title": "Sample: draft",
+      "slug": "sample-draft",
+      "author": 900,
+      "content": "<p>Drafts must 404 on the site and be missing from /api/posts/.</p>",
+      "status": 0,
+      "created_on": "2026-01-07T12:00:00Z",
+      "updated_on": "2026-01-07T12:00:00Z"
+    }
+  },
+  {
+    "model": "blog.comment",
+    "pk": 900,
+    "fields": {
+      "post": 900,
+      "name": "Commenter 1",
+      "email": "commenter1@example.com",
+      "body": "Sample comment 1.",
+      "created_on": "2026-01-11T00:00:00Z",
+      "active": true
+    }
+  },
+  {
+    "model": "blog.comment",
+    "pk": 901,
+    "fields": {
+      "post": 900,
+      "name": "Commenter 2",
+      "email": "commenter2@example.com",
+      "body": "Sample comment 2.",
+      "created_on": "2026-01-11T01:00:00Z",
+      "active": true
+    }
+  },
+  {
+    "model": "blog.comment",
+    "pk": 902,
+    "fields": {
+      "post": 900,
+      "name": "Commenter 3",
+      "email": "commenter3@example.com",
+      "body": "Sample comment 3.",
+      "created_on": "2026-01-11T02:00:00Z",
+      "active": true
+    }
+  },
+  {
+    "model": "blog.comment",
+    "pk": 903,
+    "fields": {
+      "post": 900,
+      "name": "Commenter 4",
+      "email": "commenter4@example.com",
+      "body": "Sample comment 4.",
+      "created_on": "2026-01-11T03:00:00Z",
+      "active": true
+    }
+  },
+  {
+    "model": "blog.comment",
+    "pk": 904,
+    "fields": {
+      "post": 900,
+      "name": "Commenter 5",
+      "email": "commenter5@example.com",
+      "body": "Sample comment 5.",
+      "created_on": "2026-01-11T04:00:00Z",
+      "active": true
+    }
+  },
+  {
+    "model": "blog.comment",
+    "pk": 905,
+    "fields": {
+      "post": 900,
+      "name": "Commenter 6",
+      "email": "commenter6@example.com",
+      "body": "Sample comment 6.",
+      "created_on": "2026-01-11T05:00:00Z",
+      "active": true
+    }
+  },
+  {
+    "model": "blog.comment",
+    "pk": 906,
+    "fields": {
+      "post": 900,
+      "name": "Commenter 7",
+      "email": "commenter7@example.com",
+      "body": "Sample comment 7.",
+      "created_on": "2026-01-11T06:00:00Z",
+      "active": true
+    }
+  },
+  {
+    "model": "blog.comment",
+    "pk": 907,
+    "fields": {
+      "post": 900,
+      "name": "Commenter 8",
+      "email": "commenter8@example.com",
+      "body": "Sample comment 8.",
+      "created_on": "2026-01-11T07:00:00Z",
+      "active": true
+    }
+  },
+  {
+    "model": "blog.comment",
+    "pk": 908,
+    "fields": {
+      "post": 900,
+      "name": "Commenter 9",
+      "email": "commenter9@example.com",
+      "body": "Sample comment 9.",
+      "created_on": "2026-01-11T08:00:00Z",
+      "active": true
+    }
+  },
+  {
+    "model": "blog.comment",
+    "pk": 909,
+    "fields": {
+      "post": 900,
+      "name": "Commenter 10",
+      "email": "commenter10@example.com",
+      "body": "Sample comment 10.",
+      "created_on": "2026-01-11T09:00:00Z",
+      "active": true
+    }
+  },
+  {
+    "model": "blog.comment",
+    "pk": 910,
+    "fields": {
+      "post": 900,
+      "name": "Commenter 11",
+      "email": "commenter11@example.com",
+      "body": "Sample comment 11.",
+      "created_on": "2026-01-11T10:00:00Z",
+      "active": true
+    }
+  },
+  {
+    "model": "blog.comment",
+    "pk": 911,
+    "fields": {
+      "post": 900,
+      "name": "Commenter 12",
+      "email": "commenter12@example.com",
+      "body": "Sample comment 12.",
+      "created_on": "2026-01-11T11:00:00Z",
+      "active": true
+    }
+  },
+  {
+    "model": "blog.comment",
+    "pk": 912,
+    "fields": {
+      "post": 900,
+      "name": "Commenter 13",
+      "email": "commenter13@example.com",
+      "body": "Sample comment 13. Unapproved: must not appear on the site.",
+      "created_on": "2026-01-11T12:00:00Z",
+      "active": false
+    }
+  },
+  {
+    "model": "blog.comment",
+    "pk": 913,
+    "fields": {
+      "post": 900,
+      "name": "Commenter 14",
+      "email": "commenter14@example.com",
+      "body": "Sample comment 14. Unapproved: must not appear on the site.",
+      "created_on": "2026-01-11T13:00:00Z",
+      "active": false
+    }
+  }
+]

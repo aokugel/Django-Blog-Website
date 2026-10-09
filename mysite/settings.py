@@ -20,14 +20,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES_DIRS = os.path.join(BASE_DIR, 'templates')
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'dev')
+# All configuration comes from the environment (or a .env file); see .env.example.
+# DEBUG is off unless explicitly enabled.
+DEBUG = os.environ.get('DEBUG', '').lower() in ('1', 'true', 'yes')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# With DEBUG off there is no fallback: Django refuses to run with an empty key.
+SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-insecure-key' if DEBUG else '')
 
-# ALLOWED_HOSTS = ["anthonykugel.com", "www.anthonykugel.com"]
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
 
 # Application definition
@@ -85,7 +85,7 @@ DATABASES = {
         'NAME': os.environ.get('DB_NAME', default='djangodb'),
         'USER':  os.environ.get('DB_USERNAME', default='djangodb_user'),
         'PASSWORD': os.environ.get('DB_PASSWORD', default='postgres'),
-        'HOST': os.environ.get('DB_HOST', default='db'),
+        'HOST': os.environ.get('DB_HOST', default='localhost'),
         'PORT': os.environ.get('DB_PORT', default='5432'),
     }
 }
@@ -140,11 +140,8 @@ STATIC_URL = '/static/'
 #Location of static files
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
 
-#for regular nginx
-#STATIC_ROOT  = '/var/www/static'
-
-#for kubernetes
-STATIC_ROOT  = '/static'
+# Where collectstatic writes; in production, the directory nginx serves /static/ from
+STATIC_ROOT = os.environ.get('STATIC_ROOT', os.path.join(BASE_DIR, 'staticfiles'))
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [

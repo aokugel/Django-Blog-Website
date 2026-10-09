@@ -114,3 +114,12 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+
+# Local data, build output, and dumps
+data/
+staticfiles/
+*.dump
+
+# Terraform state (never commit; use a remote backend)
+*.tfstate*
+.terraform/

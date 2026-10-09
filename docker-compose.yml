@@ -1,25 +1,28 @@
-version: "3.9"
-   
+# Local development only. Production uses RDS, not this Postgres service.
 services:
   db:
-    image: postgres
+    image: postgres:16  # match the RDS major version so prod dumps restore cleanly
     volumes:
       - ./data/db:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432"
     environment:
       - POSTGRES_DB=djangodb
       - POSTGRES_USER=djangodb_user
       - POSTGRES_PASSWORD=postgres
   web:
     build: .
-    command: #python manage.py makemigrations && sleep 5  && python manage.py migrate&& 
-      python manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code:z
     ports:
       - "8000:8000"
     environment:
-      - POSTGRES_NAME=djangodb
-      - POSTGRES_USER=djangodb_user
-      - POSTGRES_PASSWORD=postgres
+      - DEBUG=1
+      - SECRET_KEY=dev-only
+      - DB_NAME=djangodb
+      - DB_USERNAME=djangodb_user
+      - DB_PASSWORD=postgres
+      - DB_HOST=db
     depends_on:
       - db

@@ -16,6 +16,19 @@ The website runs all on aws.  The web layer runs on nginx, which is running in a
 The database is running on postgresql running on aws rds.  This is a diagram of the architecture:
 ![Architecture diagram](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/images/con-VPC-sec-grp.png)
 
+### Configuration
+All settings come from environment variables, read from a `.env` file at the repo root if present. Copy [.env.example](.env.example) to `.env` and fill it in.
+
+| Variable | Required in production | Default |
+|---|---|---|
+| `SECRET_KEY` | yes | none (an insecure dev key only when `DEBUG=1`) |
+| `ALLOWED_HOSTS` | yes | `localhost,127.0.0.1` |
+| `STATIC_ROOT` | yes (nginx's static dir) | `./staticfiles` |
+| `DB_NAME`, `DB_USERNAME`, `DB_PASSWORD`, `DB_HOST`, `DB_PORT` | yes | local docker-compose Postgres |
+| `DEBUG` | no, leave unset | off |
+
+`docker-compose.yml` is for local development only and sets `DEBUG=1` itself.
+
 ### ChangeLog & Roadmap
 I might eventually incorporate a Dashboard using plotly.  This would be a good way to utilize python's data visualization capabilities.
 
