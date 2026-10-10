@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ.get('DB_NAME', default='djangodb'),
         'USER':  os.environ.get('DB_USERNAME', default='djangodb_user'),
         'PASSWORD': os.environ.get('DB_PASSWORD', default='postgres'),
@@ -123,9 +123,10 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_L10N = True
-
 USE_TZ = True
+
+# Existing tables use 32-bit integer ids; keep that so no migrations are generated.
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 
 # Static files (CSS, JavaScript, Images)

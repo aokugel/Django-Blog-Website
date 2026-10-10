@@ -16,6 +16,24 @@ The website runs all on aws.  The web layer runs on nginx, which is running in a
 The database is running on postgresql running on aws rds.  This is a diagram of the architecture:
 ![Architecture diagram](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/images/con-VPC-sec-grp.png)
 
+### Development
+Dependencies are managed with [uv](https://docs.astral.sh/uv/) (`pyproject.toml` + `uv.lock`); uv installs the pinned Python version from `.python-version` if needed.
+
+```sh
+export DEBUG=1                                   # local dev only; also supplies an insecure dev SECRET_KEY
+docker-compose up -d db                          # local Postgres on localhost:5432
+uv sync                                          # create .venv with locked dependencies
+uv run python manage.py migrate
+uv run python manage.py loaddata sample          # sample posts/comments; never run in production
+uv run python manage.py runserver
+uv run python manage.py test
+```
+
+Or run everything in Docker: `docker-compose up --build`. To add or upgrade a dependency, use `uv add <package>` or `uv lock --upgrade-package <package>`, and commit `uv.lock`.
+
+### Deployment
+Production deploys with `git pull` on the EC2 box: [deploy.sh](deploy.sh) pulls, runs `uv sync --frozen --no-dev`, migrates, collects static files, and restarts gunicorn. Run it from the repo as the gunicorn service user. The `Dockerfile` is production-ready but not yet used in production.
+
 ### Configuration
 All settings come from environment variables, read from a `.env` file at the repo root if present. Copy [.env.example](.env.example) to `.env` and fill it in.
 
