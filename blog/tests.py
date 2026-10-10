@@ -20,6 +20,15 @@ class SiteTests(TestCase):
     def test_draft_is_hidden(self):
         self.assertEqual(self.client.get('/draft/').status_code, 404)
 
+    def test_covid_page_is_gone(self):
+        self.assertEqual(self.client.get('/covid/').status_code, 404)
+
+    def test_about_link_points_at_oldest_published_post(self):
+        newer = Post.objects.create(title='Newer', slug='newer', author=self.published.author, content='x', status=1)
+        response = self.client.get('/')
+        self.assertContains(response, 'href="/published/">About</a>')
+        self.assertNotContains(response, f'href="/{newer.slug}/">About</a>')
+
     def test_api_hides_drafts(self):
         slugs = [p['slug'] for p in self.client.get('/api/posts/').json()]
         self.assertEqual(slugs, ['published'])

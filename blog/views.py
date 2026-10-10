@@ -4,18 +4,11 @@ from .models import Post, Comment, Author
 from .forms import CommentForm
 from rest_framework import viewsets
 from .serializers import PostSerializer, CommentSerializer
-from .utils import pull_last_post
-import requests
-import os
 
 class PostList(generic.ListView):
     queryset = Post.objects.filter(status=1).order_by('-created_on')
     template_name = 'index.html'
     paginate_by = 4
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['last_post'] = pull_last_post()
-        return context
 
 def post_detail(request, slug):
     template_name = 'post_detail.html'
@@ -39,26 +32,11 @@ def post_detail(request, slug):
     return render(request, template_name, {'post': post,
                                            'comments': comments,
                                            'new_comment': new_comment,
-                                           'comment_form': comment_form,
-                                           'last_post': pull_last_post()})    
+                                           'comment_form': comment_form})
 
 class ContactView(generic.ListView):
     queryset = Author.objects.order_by('name')
     template_name = 'contact.html'
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["last_post"] = pull_last_post()
-        return context
-
-def covid_details(request):
-    template_name = 'covid.html'
-    api_key = os.environ.get('API_KEY')
-    json_response = requests.get("https://api.covidactnow.org/v2/country/US.timeseries.json?apiKey={}".format(api_key)).json()
-    context = {
-        "dataset": json_response['actualsTimeseries'][:-30:-1],
-        "last_post": pull_last_post()
-    }
-    return render(request, template_name, context)  
 
 
 class PostViewSet(viewsets.ModelViewSet):

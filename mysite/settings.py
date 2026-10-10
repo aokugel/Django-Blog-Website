@@ -18,7 +18,6 @@ load_dotenv()
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES_DIRS = os.path.join(BASE_DIR, 'templates')
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # All configuration comes from the environment (or a .env file); see .env.example.
 # DEBUG is off unless explicitly enabled.
@@ -40,8 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog',
-    'blog.templatetags',
-    'crispy_forms',
     'rest_framework'
 ]
 

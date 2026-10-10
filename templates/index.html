@@ -24,7 +24,7 @@
                 <div class="card-body">
                     <h2 class="card-title">{{ post.title }}</h2>
                     <p class="card-text text-muted h6">{{ post.author }} | {{ post.created_on}} </p>
-                    <p class="card-text">{{post.content|safe|truncatechars:280 }}</p>
+                    <p class="card-text">{{ post.content|striptags|truncatewords:50 }}</p>
                     <a href="{% url 'post_detail' post.slug  %}" class="btn btn-info">Read More &rarr;</a>
                 </div>
             </div>
@@ -36,7 +36,7 @@
     </div>
 </div>
 {% if is_paginated %}
-  <nav aria-label="Page navigation conatiner"></nav>
+  <nav aria-label="Pagination">
   <ul class="pagination justify-content-center">
     {% if page_obj.has_previous %}
     <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; PREV </a></li>
@@ -47,6 +47,5 @@
     {% endif %}
   </ul>
   </nav>
-</div>
 {% endif %}
 {%endblock%}
