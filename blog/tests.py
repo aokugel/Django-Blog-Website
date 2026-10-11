@@ -25,9 +25,9 @@ class SiteTests(TestCase):
 
     def test_about_link_points_at_oldest_published_post(self):
         newer = Post.objects.create(title='Newer', slug='newer', author=self.published.author, content='x', status=1)
-        response = self.client.get('/')
-        self.assertContains(response, 'href="/published/">About</a>')
-        self.assertNotContains(response, f'href="/{newer.slug}/">About</a>')
+        html = self.client.get('/').content.decode()
+        self.assertRegex(html, r'href="/published/"[^>]*>About</a>')
+        self.assertNotRegex(html, rf'href="/{newer.slug}/"[^>]*>About</a>')
 
     def test_api_hides_drafts(self):
         slugs = [p['slug'] for p in self.client.get('/api/posts/').json()]

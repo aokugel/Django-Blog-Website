@@ -1,25 +1,13 @@
-{% block sidebar %}
-
-<!-- Sidebar Widgets Column -->
-<div class="col-md-4 float-right ">
-    <div class="card my-4">
-            <h5 class="card-header">About Me</h5>
-        <div class="card-body">
-            <p class="card-text">I'm Anthony Kugel, a cloud engineer and freelance web developer.
-                I made this site with the help of djangocentral.com.
-            </p>
-            <a href="https://www.linkedin.com/in/anthony-kugel-672aabb3/"
-            class="btn btn-danger">LinkedIn</a>
-        </div>
+<aside aria-labelledby="about-heading" class="rounded-3xl border border-border bg-card p-6 shadow-xs lg:sticky lg:top-24">
+  <div class="flex items-center gap-3">
+    <span class="grid size-11 shrink-0 place-items-center rounded-full bg-accent font-display font-medium text-accent-ink" aria-hidden="true">AK</span>
+    <div>
+      <h2 id="about-heading" class="font-display font-medium">Anthony Kugel</h2>
+      <p class="text-sm text-muted">Cloud engineer</p>
     </div>
-    <div class="card my-4">
-        <h5 class="card-header">What I'm listening To</h5>
-        <div class="card-body">
-            <iframe src="https://open.spotify.com/embed/playlist/3R1qRfrYMPTdbkObxD1GJv" 
-            width="300" height="380" frameborder="0" allowtransparency="true" 
-            allow="encrypted-media"></iframe>
-        </div>
-    </div>
-</div>
-
-{% endblock sidebar %}
+  </div>
+  <p class="mt-4 text-sm leading-relaxed text-muted">
+    I'm a cloud engineer and freelance web developer. I made this site with the help of djangocentral.com.
+  </p>
+  <a href="https://www.linkedin.com/in/anthony-kugel-672aabb3/" class="mt-5 inline-block rounded-full border border-border px-4 py-2 text-sm font-medium hover:border-accent/50">Connect on LinkedIn</a>
+</aside>

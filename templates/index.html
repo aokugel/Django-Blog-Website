@@ -1,51 +1,57 @@
-{% extends "base.html" %} 
-{% block content %}
+{% extends "base.html" %}
+{% load static %}
 
-<header class="masthead">
-    <div class="overlay"></div>
-    <div class="container">
-        <div class="row">
-            <div class=" col-md-8 col-md-10 mx-auto">
-                <div class="site-heading">
-                    <h3 class=" site-heading my-4 mt-3 text-white"> Welcome to my django blog </h3>
-                    <p class="text-light">Trust the process. &nbsp
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-<div class="container">
-    <div class="row">
-        <!-- Blog Entries Column -->
-        <div class="col-md-8 mt-3 left">
-            {% for post in post_list %}
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h2 class="card-title">{{ post.title }}</h2>
-                    <p class="card-text text-muted h6">{{ post.author }} | {{ post.created_on}} </p>
-                    <p class="card-text">{{ post.content|striptags|truncatewords:50 }}</p>
-                    <a href="{% url 'post_detail' post.slug  %}" class="btn btn-info">Read More &rarr;</a>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        {% block sidebar %} 
-        {% include 'sidebar.html' %} 
-        {% endblock sidebar %}
-    </div>
-</div>
-{% if is_paginated %}
-  <nav aria-label="Pagination">
-  <ul class="pagination justify-content-center">
-    {% if page_obj.has_previous %}
-    <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; PREV </a></li>
-    {% endif %}
-    {% if page_obj.has_next %}
-    <li><a href="?page={{ page_obj.next_page_number }}" class="page-link"> NEXT &raquo;</a></li>
-
-    {% endif %}
-  </ul>
-  </nav>
+{% block hero %}
+{% if not page_obj.has_previous %}
+<section class="mx-auto w-full max-w-6xl px-4 pt-16 text-center motion-safe:animate-rise sm:pt-20">
+  <h1 class="font-display text-5xl font-medium tracking-tight sm:text-7xl">Django Unchained</h1>
+  <p class="mx-auto mt-4 max-w-md text-muted">Notes on Django, Python and the cloud from Anthony Kugel. Trust the process.</p>
+  {% with latest=post_list.0 %}{% if latest %}
+  <a href="{% url 'post_detail' latest.slug %}" class="mt-7 inline-flex items-center gap-3 rounded-full bg-primary py-1.5 pr-1.5 pl-5 text-sm font-medium text-primary-ink hover:opacity-90">
+    Read the latest post
+    <span class="grid size-7 place-items-center rounded-full bg-primary-ink text-primary" aria-hidden="true">
+      <svg class="size-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 11 11 5M6 5h5v5"/></svg>
+    </span>
+  </a>
+  {% endif %}{% endwith %}
+  <div class="mt-12 h-48 overflow-hidden rounded-3xl border border-border bg-subtle sm:h-72">
+    <img src="{% static 'img/hero-lines.svg' %}" alt="" class="size-full object-cover">
+  </div>
+</section>
 {% endif %}
-{%endblock%}
+{% endblock %}
+
+{% block content %}
+<p class="inline-block rounded-full border border-border px-3 py-1 text-xs text-muted">// Latest posts //</p>
+<h2 class="mt-4 font-display text-3xl font-medium tracking-tight sm:text-4xl">Notes from building with Django and the cloud</h2>
+
+<ol class="mt-8 grid gap-4 sm:grid-cols-2">
+  {% for post in post_list %}
+  {% with featured=forloop.first %}
+  <li class="relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-xs transition hover:border-accent/50 hover:shadow-md has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-2 has-[a:focus-visible]:outline-accent{% if featured and not page_obj.has_previous %} sm:col-span-2{% endif %}">
+    <time datetime="{{ post.created_on|date:'c' }}" class="text-sm text-muted">{{ post.created_on|date:"M j, Y" }}</time>
+    <h3 class="mt-2 font-display font-medium tracking-tight {% if featured and not page_obj.has_previous %}text-2xl sm:text-3xl{% else %}text-xl{% endif %}">
+      <a href="{% url 'post_detail' post.slug %}" class="after:absolute after:inset-0 focus-visible:outline-none">{{ post.title }}</a>
+    </h3>
+    <p class="mt-2 line-clamp-3 leading-relaxed text-muted">{{ post.content|striptags|truncatewords:40 }}</p>
+    {% if featured and not page_obj.has_previous %}
+    <div class="-mx-6 mt-6 -mb-6 h-24 border-t border-border bg-subtle">
+      <img src="{% static 'img/hero-lines.svg' %}" alt="" class="size-full object-cover">
+    </div>
+    {% endif %}
+  </li>
+  {% endwith %}
+  {% endfor %}
+</ol>
+
+{% if is_paginated %}
+<nav aria-label="Pagination" class="mt-8 flex justify-between gap-4">
+  {% if page_obj.has_previous %}
+  <a href="?page={{ page_obj.previous_page_number }}" class="rounded-full border border-border bg-card px-5 py-2 text-sm font-medium hover:border-accent/50">Newer posts</a>
+  {% else %}<span></span>{% endif %}
+  {% if page_obj.has_next %}
+  <a href="?page={{ page_obj.next_page_number }}" class="rounded-full border border-border bg-card px-5 py-2 text-sm font-medium hover:border-accent/50">Older posts</a>
+  {% endif %}
+</nav>
+{% endif %}
+{% endblock %}

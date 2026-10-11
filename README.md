@@ -31,6 +31,17 @@ uv run python manage.py test
 
 Or run everything in Docker: `docker-compose up --build`. To add or upgrade a dependency, use `uv add <package>` or `uv lock --upgrade-package <package>`, and commit `uv.lock`.
 
+#### CSS
+Styles are [Tailwind CSS](https://tailwindcss.com/) built with the standalone CLI (no Node). The source is [static/css/input.css](static/css/input.css); the built `static/css/site.css` is committed, and CI fails if it is stale. Download the pinned CLI once (v4.3.3; use `tailwindcss-macos-x64` on Intel Macs, `tailwindcss-linux-x64` on Linux):
+
+```sh
+curl -sSfL -o tailwindcss https://github.com/tailwindlabs/tailwindcss/releases/download/v4.3.3/tailwindcss-macos-arm64 && chmod +x tailwindcss
+./tailwindcss -i static/css/input.css -o static/css/site.css --minify          # build once
+./tailwindcss -i static/css/input.css -o static/css/site.css --minify --watch  # rebuild while editing templates
+```
+
+Always build with `--minify` so the output matches CI. When upgrading Tailwind, change the version here and in [.github/workflows/css.yml](.github/workflows/css.yml) (including its SHA-256).
+
 ### Deployment
 Production deploys with `git pull` on the EC2 box: [deploy.sh](deploy.sh) pulls, runs `uv sync --frozen --no-dev`, migrates, collects static files, and restarts gunicorn. Run it from the repo as the gunicorn service user. The `Dockerfile` is production-ready but not yet used in production.
 
@@ -51,4 +62,4 @@ All settings come from environment variables, read from a `.env` file at the rep
 I might eventually incorporate a Dashboard using plotly.  This would be a good way to utilize python's data visualization capabilities.
 
 ### Credits
-I would not have been able to make this website with the help of djangocentral.com.  Frontend css and javascript leveraged with https://getbootstrap.com/ and https://bootswatch.com/.
+I would not have been able to make this website without the help of djangocentral.com. Styling uses [Tailwind CSS](https://tailwindcss.com/) and its typography plugin. The heading typeface is [Outfit](https://github.com/Outfitio/Outfit-Fonts), self-hosted under the SIL Open Font License ([static/fonts/OFL.txt](static/fonts/OFL.txt)).

@@ -122,3 +122,7 @@ staticfiles/
 # Terraform state (never commit; use a remote backend)
 *.tfstate*
 .terraform/
+
+# Tailwind standalone CLI binaries (download per README; the built static/css/site.css IS committed)
+/tailwindcss
+/tailwindcss-*

@@ -1,56 +1,48 @@
-{% extends 'base.html' %} {% block content %}
+{% extends "base.html" %}
+{% block title %}{{ post.title }} · Django Unchained{% endblock %}
+{% block content %}
+<article>
+  <p class="inline-block rounded-full border border-border px-3 py-1 text-xs text-muted">
+    <time datetime="{{ post.created_on|date:'c' }}">{{ post.created_on|date:"F j, Y" }}</time>
+  </p>
+  <h1 class="mt-4 font-display text-4xl leading-tight font-medium tracking-tight sm:text-5xl">{{ post.title }}</h1>
+  <p class="mt-3 text-muted">By {{ post.author }}</p>
+  <div class="prose mt-10 max-w-[68ch] prose-site prose-headings:font-display prose-headings:font-medium prose-headings:tracking-tight prose-a:underline-offset-4 prose-code:before:content-none prose-code:after:content-none prose-pre:rounded-2xl prose-img:rounded-2xl sm:prose-lg">
+    {{ post.content|safe }}
+  </div>
+</article>
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-8 mt-3 left">
-      <div class="card mb-4">
-        <div class="card-body">
-          <h1>{% block title %} {{ post.title }} {% endblock title %}</h1>
-          <p class=" text-muted">{{ post.author }} | {{ post.created_on }}</p>
-          <p class="card-text ">{{ post.content | safe }}</p>
-        </div>
-      </div>
-    
-    {% if comments %}
-    <div class="card mb-4">
-      <div class="card-body">
-        <!-- comments -->
-        <h2>{{ comments.count }} comments</h2>
+<section id="comments" aria-labelledby="comments-heading" class="mt-16 rounded-3xl border border-border bg-subtle p-5 sm:p-8">
+  <h2 id="comments-heading" class="font-display text-2xl font-medium tracking-tight">{{ comments.count }} comment{{ comments.count|pluralize }}</h2>
 
-        {% for comment in comments %}
-        <div class="comments" style="padding: 10px;">
-          <p class="font-weight-bold">
-            {{ comment.name }}
-            <span class=" text-muted font-weight-normal">
-              {{ comment.created_on }}
-            </span>
-          </p>
-          {{ comment.body | linebreaks }}
-        </div>
-        {% endfor %}
+  {% if comments %}
+  <ol class="mt-6 space-y-3">
+    {% for comment in comments %}
+    <li class="flex gap-4 rounded-2xl border border-border bg-card p-4 sm:p-5">
+      <span class="grid size-9 shrink-0 place-items-center rounded-full bg-accent/15 font-display font-medium text-accent" aria-hidden="true">{{ comment.name|first|upper }}</span>
+      <div class="min-w-0">
+        <p class="text-sm">
+          <span class="font-semibold">{{ comment.name }}</span>
+          <time datetime="{{ comment.created_on|date:'c' }}" class="ml-2 text-muted">{{ comment.created_on|date:"M j, Y" }}</time>
+        </p>
+        <div class="mt-1 space-y-2 leading-relaxed break-words">{{ comment.body|linebreaks }}</div>
       </div>
-    </div>
+    </li>
+    {% endfor %}
+  </ol>
+  {% endif %}
+
+  <div class="mt-6 rounded-2xl border border-border bg-card p-5 sm:p-6">
+    <h3 class="font-display text-lg font-medium">Leave a comment</h3>
+    {% if new_comment %}
+    <p role="status" class="mt-3 rounded-xl bg-accent/10 px-4 py-3">Comment received. It will appear here once it's approved.</p>
+    {% else %}
+    <form method="post" class="form mt-4 space-y-4">
+      {% csrf_token %}
+      {{ comment_form.as_div }}
+      <button type="submit" class="rounded-full bg-primary px-6 py-2.5 text-sm font-medium text-primary-ink hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">Post comment</button>
+    </form>
     {% endif %}
-    <div class="card mb-4">
-      <div class="card-body">
-        {% if new_comment %}
-        <div class="alert alert-success" role="alert">
-          Your comment is awaiting moderation
-        </div>
-        {% else %}
-        <h3>Leave a comment</h3>
-        <form method="post" style="margin-top: 1.3em;">
-          {{ comment_form.as_div }}
-          {% csrf_token %}
-          <button type="submit" class="btn btn-info  btn-lg">Submit</button>
-        </form>
-        {% endif %}
-      </div>
-    </div>
   </div>
-    {% block sidebar %} 
-    {% include 'sidebar.html' %} 
-    {% endblock sidebar %}
-  </div>
-</div>
-{% endblock content %}
+</section>
+{% endblock %}

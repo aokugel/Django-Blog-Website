@@ -1,0 +1,114 @@
+/* Tailwind source. Build the committed static/css/site.css with:
+     ./tailwindcss -i static/css/input.css -o static/css/site.css --minify
+   (add --watch while editing templates). CI fails if site.css is stale. */
+@import "tailwindcss" source("../../templates");
+@plugin "@tailwindcss/typography";
+
+/* Dark mode follows a .dark class on <html>, set by the inline script in base.html. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Outfit (SIL OFL, see static/fonts/OFL.txt) for headings; body text uses the system UI font. */
+@font-face {
+  font-family: "Outfit";
+  src: url("../fonts/outfit-variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Palette. Colors swap via these variables, so templates need no dark: variants for them. */
+@layer base {
+  :root {
+    --bg: #ffffff;
+    --subtle: #f7f7f8;
+    --card: #ffffff;
+    --border: #e7e7ea;
+    --ink: #141414;
+    --muted: #6b6b72;
+    --accent: #4f46e5;
+    --accent-ink: #ffffff;
+    --primary: #141414;
+    --primary-ink: #ffffff;
+    --danger: #b42318;
+  }
+  .dark {
+    --bg: #0e0e11;
+    --subtle: #16161a;
+    --card: #18181c;
+    --border: #2a2a30;
+    --ink: #f4f4f5;
+    --muted: #a1a1aa;
+    --accent: #a5b4fc;
+    --accent-ink: #0e0e11;
+    --primary: #f4f4f5;
+    --primary-ink: #0e0e11;
+    --danger: #ffa195;
+    color-scheme: dark;
+  }
+  body {
+    background-color: var(--bg);
+  }
+  ::selection {
+    background-color: var(--accent);
+    color: var(--accent-ink);
+  }
+}
+
+@theme inline {
+  --font-display: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --color-bg: var(--bg);
+  --color-subtle: var(--subtle);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-primary: var(--primary);
+  --color-primary-ink: var(--primary-ink);
+  --color-danger: var(--danger);
+}
+
+/* The one orchestrated motion: the home hero fades up on load. */
+@theme {
+  --animate-rise: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: none; }
+  }
+}
+
+/* Post bodies: typography plugin colors mapped onto the palette (no prose-invert needed). */
+@utility prose-site {
+  --tw-prose-body: var(--ink);
+  --tw-prose-headings: var(--ink);
+  --tw-prose-lead: var(--muted);
+  --tw-prose-links: var(--accent);
+  --tw-prose-bold: var(--ink);
+  --tw-prose-counters: var(--muted);
+  --tw-prose-bullets: var(--accent);
+  --tw-prose-hr: var(--border);
+  --tw-prose-quotes: var(--ink);
+  --tw-prose-quote-borders: var(--accent);
+  --tw-prose-captions: var(--muted);
+  --tw-prose-code: var(--ink);
+  --tw-prose-pre-code: #e7e7ea;
+  --tw-prose-pre-bg: #17171c;
+  --tw-prose-th-borders: var(--border);
+  --tw-prose-td-borders: var(--border);
+}
+
+/* Django's {{ form.as_div }} output, inside <form class="form">. */
+@layer components {
+  .form label {
+    @apply block text-sm font-medium;
+  }
+  .form input:not([type="hidden"]),
+  .form textarea {
+    @apply mt-1.5 block w-full rounded-xl border border-border bg-card px-4 py-2.5 text-base text-ink
+      focus:border-accent focus:outline-2 focus:outline-offset-2 focus:outline-accent;
+  }
+  .form .errorlist {
+    @apply mt-1 text-sm font-medium text-danger;
+  }
+}

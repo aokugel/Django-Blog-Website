@@ -1,43 +1,28 @@
-{% extends 'base.html' %} {% block content %}
+{% extends "base.html" %}
+{% block title %}Contact · Django Unchained{% endblock %}
+{% block content %}
+<p class="inline-block rounded-full border border-border px-3 py-1 text-xs text-muted">// Contact //</p>
+<h1 class="mt-4 font-display text-4xl leading-tight font-medium tracking-tight sm:text-5xl">Meet the masterminds behind this awesome operation</h1>
+<p class="mt-3 text-muted">Contact information is obfuscated for privacy. Reach out on LinkedIn.</p>
 
-<header class="masthead">
-    <div class="overlay"></div>
-    <div class="container">
-        <div class="row">
-            <div class=" col-md-8 col-md-10 mx-auto">
-                <div class="site-heading">
-                    <h3 class=" site-heading my-4 mt-3 text-white"> Meet the masterminds behind this awesome operation</h3>
-                    <p class="text-light"> Contact information is obfuscated for privacy.  Reach out on LinkedIn. &nbsp
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-
-<div class="container">
-  <div class="row">
-      <!-- Blog Entries Column -->
-        <div class="col-md-8 mt-3 left">
-            {% for author in author_list %}
-          <div class="card mb-4">
-              <div class="card-body">
-                  <h2 class="card-title">{{ author.name }}</h2>
-                  <p class="card-text text-muted h6">{{ author.title }}</p>
-                  <p class="card-text">email: {{ author.email }}</p>
-                  <p class="card-text">phone: {{ author.phone }}</p>
-                  {% if author.linkedIn_url %}
-                  <a href={{ author.linkedIn_url }} class="btn btn-info">LinkedIn &rarr;</a>
-                  {% endif %}
-              </div>
-          </div>
-        {% endfor %}
+<div class="mt-10 space-y-4">
+  {% for author in author_list %}
+  <article class="rounded-2xl border border-border bg-card p-6 shadow-xs">
+    <div class="flex items-center gap-4">
+      <span class="grid size-12 shrink-0 place-items-center rounded-full bg-accent/15 font-display text-lg font-medium text-accent" aria-hidden="true">{{ author.name|first|upper }}</span>
+      <div>
+        <h2 class="font-display text-xl font-medium tracking-tight">{{ author.name }}</h2>
+        <p class="text-sm text-muted">{{ author.title }}</p>
       </div>
-      {% block sidebar %} 
-      {% include 'sidebar.html' %} 
-      {% endblock sidebar %}
-  </div>
+    </div>
+    <dl class="mt-5 grid gap-3 text-sm sm:grid-cols-2">
+      <div class="min-w-0 rounded-xl bg-subtle px-4 py-3"><dt class="text-muted">Email</dt><dd class="font-medium break-all">{{ author.email }}</dd></div>
+      <div class="rounded-xl bg-subtle px-4 py-3"><dt class="text-muted">Phone</dt><dd class="font-medium">{{ author.phone }}</dd></div>
+    </dl>
+    {% if author.linkedIn_url %}
+    <a href="{{ author.linkedIn_url }}" class="mt-5 inline-block rounded-full border border-border px-5 py-2 text-sm font-medium hover:border-accent/50">{{ author.name }} on LinkedIn</a>
+    {% endif %}
+  </article>
+  {% endfor %}
 </div>
-
-
-{% endblock content %}
+{% endblock %}

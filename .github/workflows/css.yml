@@ -1,0 +1,23 @@
+name: CSS up to date
+
+# static/css/site.css is built locally and committed. This rebuilds it with the same
+# pinned Tailwind version and fails if the committed file doesn't match.
+on: [push, pull_request]
+
+jobs:
+  css:
+    runs-on: ubuntu-latest
+    env:
+      TAILWIND_VERSION: v4.3.3
+      TAILWIND_SHA256: dc61b3ac6b8c9ca874c0cc4c57b2409791a64c5540404ca5f5367360babc313a
+    steps:
+    - uses: actions/checkout@v4
+    - name: Download Tailwind standalone CLI
+      run: |
+        curl -sSfL -o tailwindcss "https://github.com/tailwindlabs/tailwindcss/releases/download/${TAILWIND_VERSION}/tailwindcss-linux-x64"
+        echo "${TAILWIND_SHA256}  tailwindcss" | sha256sum -c
+        chmod +x tailwindcss
+    - name: Rebuild CSS
+      run: ./tailwindcss -i static/css/input.css -o static/css/site.css --minify
+    - name: Fail if the committed site.css is stale
+      run: git diff --exit-code static/css/site.css
