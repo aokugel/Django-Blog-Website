@@ -54,6 +54,7 @@ All settings come from environment variables, read from a `.env` file at the rep
 | `ALLOWED_HOSTS` | yes | `localhost,127.0.0.1` |
 | `STATIC_ROOT` | yes (nginx's static dir) | `./staticfiles` |
 | `DB_NAME`, `DB_USERNAME`, `DB_PASSWORD`, `DB_HOST`, `DB_PORT` | yes | local docker-compose Postgres |
+| `HTTPS` | yes, `1` (secure cookies + HSTS) | off |
 | `DEBUG` | no, leave unset | off |
 
 `docker-compose.yml` is for local development only and sets `DEBUG=1` itself.

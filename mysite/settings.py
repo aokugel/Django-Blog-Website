@@ -152,11 +152,11 @@ REST_FRAMEWORK = {
 
 }
 
-#Security settings
-# SESSION_COOKIE_SECURE = True
-# CSRF_COOKIE_SECURE = True
-# SECURE_SSL_REDIRECT = True
-# SECURE_HSTS_SECONDS = 3600
-# SECURE_HSTS_PRELOAD = True
-# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-# SECURE_REFERRER_POLICY = "same-origin"
+# HTTPS hardening, on when HTTPS=1 (production, behind nginx's TLS). Off locally, where everything is
+# plain http. nginx already redirects http to https, so SECURE_SSL_REDIRECT isn't needed here.
+if os.environ.get('HTTPS', '').lower() in ('1', 'true', 'yes'):
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 3600
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
