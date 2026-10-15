@@ -43,3 +43,30 @@ class SiteTests(TestCase):
         comment = Comment.objects.get(name='Bob')
         self.assertEqual(comment.post, self.published)
         self.assertFalse(comment.active)
+
+    def test_htmx_comment_post_returns_just_the_confirmation(self):
+        response = self.client.post('/published/', {'name': 'Bob', 'email': 'bob@example.com', 'body': 'Hello'}, HTTP_HX_REQUEST='true')
+        self.assertContains(response, 'Comment received')
+        self.assertNotContains(response, '<html')
+        self.assertIn('HX-Request', response['Vary'])
+
+    def test_htmx_invalid_comment_returns_form_with_errors(self):
+        response = self.client.post('/published/', {'name': '', 'email': 'not-an-email', 'body': ''}, HTTP_HX_REQUEST='true')
+        self.assertContains(response, 'This field is required.')
+        self.assertContains(response, 'Enter a valid email address.')
+        self.assertNotContains(response, '<html')
+        self.assertFalse(Comment.objects.filter(email='not-an-email').exists())
+
+    def test_comments_paginate_with_load_more(self):
+        for n in range(2, 13):  # 12 approved comments in total, with Ann
+            Comment.objects.create(post=self.published, name=f'Reader {n}', email='r@example.com', body='Hi', active=True)
+        page_one = self.client.get('/published/')
+        self.assertContains(page_one, '12 comments')
+        self.assertContains(page_one, 'Load more comments')
+        self.assertNotContains(page_one, 'Reader 11')
+
+        page_two = self.client.get('/published/?page=2', HTTP_HX_REQUEST='true')
+        self.assertContains(page_two, 'Reader 11')
+        self.assertContains(page_two, 'Reader 12')
+        self.assertNotContains(page_two, 'Load more comments')
+        self.assertNotContains(page_two, '<html')

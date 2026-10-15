@@ -1,5 +1,5 @@
 {% load static blog_extras %}<!doctype html>
-<html lang="en">
+<html lang="en" class="scroll-pt-24">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
   <link rel="icon" href="{% static 'img/favicon.ico' %}">
   <link rel="preload" href="{% static 'fonts/outfit-variable.woff2' %}" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{% static 'css/site.css' %}">
+  <script src="{% static 'js/htmx.min.js' %}" defer></script>
   <script>
     // Set the theme before first paint to avoid a flash: saved choice, else the system setting.
     try { document.documentElement.classList.toggle("dark", localStorage.theme === "dark" || (!localStorage.theme && matchMedia("(prefers-color-scheme: dark)").matches)) } catch (e) {}

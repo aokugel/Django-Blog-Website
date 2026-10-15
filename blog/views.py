@@ -1,4 +1,6 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
+from django.utils.cache import patch_vary_headers
 from django.views import generic
 from .models import Post, Comment, Author
 from .forms import CommentForm
@@ -11,28 +13,29 @@ class PostList(generic.ListView):
     paginate_by = 4
 
 def post_detail(request, slug):
-    template_name = 'post_detail.html'
+    """The post page. HTMX requests get just the part of the page they update:
+    a comment POST returns the comment form (or the confirmation), and
+    "Load more" (?page=N) returns the next page of comments."""
     post = get_object_or_404(Post, slug=slug, status=1)
-    comments = post.comments.filter(active=True)
+    comment_form = CommentForm(request.POST if request.method == 'POST' else None)
     new_comment = None
-    # Comment posted
-    if request.method == 'POST':
-        comment_form = CommentForm(data=request.POST)
-        if comment_form.is_valid():
+    if request.method == 'POST' and comment_form.is_valid():
+        new_comment = comment_form.save(commit=False)
+        new_comment.post = post
+        new_comment.save()
 
-            # Create Comment object but don't save to database yet
-            new_comment = comment_form.save(commit=False)
-            # Assign the current post to the comment
-            new_comment.post = post
-            # Save the comment to the database
-            new_comment.save()
-    else:
-        comment_form = CommentForm()
+    context = {'post': post,
+               'comments': Paginator(post.comments.filter(active=True), 10).get_page(request.GET.get('page')),
+               'new_comment': new_comment,
+               'comment_form': comment_form}
 
-    return render(request, template_name, {'post': post,
-                                           'comments': comments,
-                                           'new_comment': new_comment,
-                                           'comment_form': comment_form})
+    template_name = 'post_detail.html'
+    if request.headers.get('HX-Request'):
+        template_name = '_comment_form.html' if request.method == 'POST' else '_comments.html'
+    response = render(request, template_name, context)
+    # The same URL returns a full page or a fragment, so caches must key on this header.
+    patch_vary_headers(response, ['HX-Request'])
+    return response
 
 class ContactView(generic.ListView):
     queryset = Author.objects.order_by('name')

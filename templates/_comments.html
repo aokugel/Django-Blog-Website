@@ -1,0 +1,20 @@
+{# One page of approved comments, as <li>s. Also the HTMX response for "Load more", which replaces the button's <li>. #}
+{% for comment in comments %}
+<li class="flex gap-4 rounded-2xl border border-border bg-card p-4 sm:p-5">
+  <span class="grid size-9 shrink-0 place-items-center rounded-full bg-accent/15 font-display font-medium text-accent" aria-hidden="true">{{ comment.name|first|upper }}</span>
+  <div class="min-w-0">
+    <p class="text-sm">
+      <span class="font-semibold">{{ comment.name }}</span>
+      <time datetime="{{ comment.created_on|date:'c' }}" class="ml-2 text-muted">{{ comment.created_on|date:"M j, Y" }}</time>
+    </p>
+    <div class="mt-1 space-y-2 leading-relaxed break-words">{{ comment.body|linebreaks }}</div>
+  </div>
+</li>
+{% endfor %}
+{% if comments.has_next %}
+<li class="pt-1 text-center">
+  <a href="?page={{ comments.next_page_number }}#comments"
+     hx-get="?page={{ comments.next_page_number }}" hx-target="closest li" hx-swap="outerHTML"
+     class="inline-block rounded-full border border-border bg-card px-5 py-2 text-sm font-medium hover:border-accent/50">Load more comments</a>
+</li>
+{% endif %}
