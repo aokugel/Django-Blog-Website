@@ -13,7 +13,7 @@
 </article>
 
 <section id="comments" aria-labelledby="comments-heading" class="mt-16 rounded-3xl border border-border bg-subtle p-5 sm:p-8">
-  <h2 id="comments-heading" class="font-display text-2xl font-medium tracking-tight">{{ comments.paginator.count }} comment{{ comments.paginator.count|pluralize }}</h2>
+  <h2 id="comments-heading" class="font-display text-2xl font-medium tracking-tight">{{ comment_count }} comment{{ comment_count|pluralize }}</h2>
 
   {% if comments %}
   <ol class="mt-6 space-y-3">
@@ -23,7 +23,7 @@
 
   <div class="mt-6 rounded-2xl border border-border bg-card p-5 sm:p-6">
     <h3 class="font-display text-lg font-medium">Leave a comment</h3>
-    <div id="comment-form" aria-live="polite">
+    <div data-form-slot aria-live="polite">
       {% include "_comment_form.html" %}
     </div>
   </div>

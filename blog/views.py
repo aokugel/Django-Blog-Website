@@ -1,4 +1,5 @@
 from django.core.paginator import Paginator
+from django.db.models import Prefetch
 from django.shortcuts import render, get_object_or_404
 from django.utils.cache import patch_vary_headers
 from django.views import generic
@@ -14,24 +15,40 @@ class PostList(generic.ListView):
 
 def post_detail(request, slug):
     """The post page. HTMX requests get just the part of the page they update:
-    a comment POST returns the comment form (or the confirmation), and
+    a comment or reply POST returns that form (or its confirmation), and
     "Load more" (?page=N) returns the next page of comments."""
     post = get_object_or_404(Post, slug=slug, status=1)
-    comment_form = CommentForm(request.POST if request.method == 'POST' else None)
-    new_comment = None
-    if request.method == 'POST' and comment_form.is_valid():
-        new_comment = comment_form.save(commit=False)
-        new_comment.post = post
-        new_comment.save()
+
+    # Each reply form gets its own element ids (reply<parent>_name, ...) so many can share a page.
+    parent_id = request.POST.get('parent', '') if request.method == 'POST' else ''
+    parent_id = parent_id if parent_id.isdigit() else ''
+    form = CommentForm(request.POST if request.method == 'POST' else None, post=post,
+                       auto_id=f'reply{parent_id}_%s' if parent_id else 'id_%s')
+    if request.method == 'POST' and form.is_valid():
+        comment = form.save(commit=False)
+        comment.post = post
+        comment.save()
+
+    approved_replies = Prefetch('replies', queryset=Comment.objects.filter(active=True), to_attr='approved_replies')
+    top_level = post.comments.filter(active=True, parent=None).prefetch_related(approved_replies)
+    comments = Paginator(top_level, 10).get_page(request.GET.get('page'))
+    for comment in comments:
+        if parent_id == str(comment.pk):
+            comment.reply_form = form  # a reply was just posted here: show its errors or confirmation in place
+        else:
+            comment.reply_form = CommentForm(post=post, initial={'parent': comment.pk}, auto_id=f'reply{comment.pk}_%s')
 
     context = {'post': post,
-               'comments': Paginator(post.comments.filter(active=True), 10).get_page(request.GET.get('page')),
-               'new_comment': new_comment,
-               'comment_form': comment_form}
+               'comments': comments,
+               'comment_count': post.comments.filter(active=True).count(),
+               'form': CommentForm(post=post) if parent_id else form}
 
     template_name = 'post_detail.html'
     if request.headers.get('HX-Request'):
-        template_name = '_comment_form.html' if request.method == 'POST' else '_comments.html'
+        if request.method == 'POST':
+            template_name, context['form'] = '_comment_form.html', form
+        else:
+            template_name = '_comments.html'
     response = render(request, template_name, context)
     # The same URL returns a full page or a fragment, so caches must key on this header.
     patch_vary_headers(response, ['HX-Request'])

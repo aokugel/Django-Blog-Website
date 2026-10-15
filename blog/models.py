@@ -25,6 +25,8 @@ class Post(models.Model):
 
 class Comment(models.Model):
     post = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='comments')
+    # Replies are one level deep: a reply's parent is always a top-level comment.
+    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies')
     name = models.CharField(max_length=80)
     email = models.EmailField()
     body = models.TextField()

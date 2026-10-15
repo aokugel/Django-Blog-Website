@@ -1,0 +1,11 @@
+{# A single comment or reply: avatar initial, name, date, body. #}
+<div class="flex gap-4">
+  <span class="grid size-9 shrink-0 place-items-center rounded-full bg-accent/15 font-display font-medium text-accent" aria-hidden="true">{{ comment.name|first|upper }}</span>
+  <div class="min-w-0">
+    <p class="text-sm">
+      <span class="font-semibold">{{ comment.name }}</span>
+      <time datetime="{{ comment.created_on|date:'c' }}" class="ml-2 text-muted">{{ comment.created_on|date:"M j, Y" }}</time>
+    </p>
+    <div class="mt-1 space-y-2 leading-relaxed break-words">{{ comment.body|linebreaks }}</div>
+  </div>
+</div>

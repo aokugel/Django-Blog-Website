@@ -1,14 +1,21 @@
-{# One page of approved comments, as <li>s. Also the HTMX response for "Load more", which replaces the button's <li>. #}
+{% comment %} One page of approved top-level comments with their approved replies, as <li>s.
+   Also the HTMX response for "Load more", which replaces the button's <li>. {% endcomment %}
 {% for comment in comments %}
-<li class="flex gap-4 rounded-2xl border border-border bg-card p-4 sm:p-5">
-  <span class="grid size-9 shrink-0 place-items-center rounded-full bg-accent/15 font-display font-medium text-accent" aria-hidden="true">{{ comment.name|first|upper }}</span>
-  <div class="min-w-0">
-    <p class="text-sm">
-      <span class="font-semibold">{{ comment.name }}</span>
-      <time datetime="{{ comment.created_on|date:'c' }}" class="ml-2 text-muted">{{ comment.created_on|date:"M j, Y" }}</time>
-    </p>
-    <div class="mt-1 space-y-2 leading-relaxed break-words">{{ comment.body|linebreaks }}</div>
-  </div>
+<li class="rounded-2xl border border-border bg-card p-4 sm:p-5">
+  {% include "_comment.html" %}
+  {% if comment.approved_replies %}
+  <ol class="mt-4 space-y-4 border-l-2 border-border pl-4 sm:ml-12" aria-label="Replies to {{ comment.name }}">
+    {% for reply in comment.approved_replies %}
+    <li>{% include "_comment.html" with comment=reply %}</li>
+    {% endfor %}
+  </ol>
+  {% endif %}
+  <details class="group mt-3 sm:ml-13"{% if comment.reply_form.is_bound %} open{% endif %}>
+    <summary class="inline-block cursor-pointer list-none rounded-full px-3 py-1 text-sm font-medium text-accent hover:bg-accent/10 [&::-webkit-details-marker]:hidden">Reply<span class="sr-only"> to {{ comment.name }}</span></summary>
+    <div data-form-slot aria-live="polite">
+      {% include "_comment_form.html" with form=comment.reply_form %}
+    </div>
+  </details>
 </li>
 {% endfor %}
 {% if comments.has_next %}

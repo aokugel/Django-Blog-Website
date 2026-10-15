@@ -268,5 +268,31 @@
       "created_on": "2026-01-11T13:00:00Z",
       "active": false
     }
+  },
+  {
+    "model": "blog.comment",
+    "pk": 914,
+    "fields": {
+      "post": 900,
+      "parent": 900,
+      "name": "Anthony Kugel",
+      "email": "sample-author@example.com",
+      "body": "Sample reply to Commenter 1.",
+      "created_on": "2026-01-11T12:30:00Z",
+      "active": true
+    }
+  },
+  {
+    "model": "blog.comment",
+    "pk": 915,
+    "fields": {
+      "post": 900,
+      "parent": 900,
+      "name": "Commenter 15",
+      "email": "commenter15@example.com",
+      "body": "Sample reply. Unapproved: must not appear on the site.",
+      "created_on": "2026-01-11T13:00:00Z",
+      "active": false
+    }
   }
 ]
