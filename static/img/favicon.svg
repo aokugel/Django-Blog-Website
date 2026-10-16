@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+  <style>
+    .mark { stroke: #4f46e5; } .used { fill: #4f46e5; }
+    @media (prefers-color-scheme: dark) { .mark { stroke: #a5b4fc; } .used { fill: #a5b4fc; } }
+  </style>
+  <rect class="mark" x="3" y="3" width="18" height="18" rx="5" stroke-width="2"/>
+  <rect class="used" x="6.5" y="13.5" width="4" height="4" rx="1.25"/>
+</svg>

@@ -4,7 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Overprovisioned{% endblock %}</title>
-  <link rel="icon" href="{% static 'img/favicon.ico' %}">
+  <link rel="icon" href="{% static 'img/favicon.ico' %}" sizes="32x32">
+  <link rel="icon" href="{% static 'img/favicon.svg' %}" type="image/svg+xml">
   <link rel="preload" href="{% static 'fonts/outfit-variable.woff2' %}" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{% static 'css/site.css' %}">
   <script src="{% static 'js/htmx.min.js' %}" defer></script>
@@ -19,7 +20,7 @@
   <header class="sticky top-3 z-10 mx-auto w-full max-w-6xl px-3">
     <nav aria-label="Main" class="relative grid grid-cols-[1fr_auto] items-center rounded-full border border-border bg-card/85 py-2 pr-2 pl-5 shadow-sm backdrop-blur lg:grid-cols-[1fr_auto_1fr]">
       <a href="{% url 'home' %}" class="flex items-center gap-2 font-display text-lg font-medium tracking-tight">
-        <svg class="size-6 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2.5" y="8" width="11" height="8" rx="4"/><rect x="10.5" y="8" width="11" height="8" rx="4"/></svg>
+        <svg class="size-6 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><rect x="6.5" y="13.5" width="4" height="4" rx="1.25" fill="currentColor" stroke="none"/></svg>
         Overprovisioned
       </a>
 
