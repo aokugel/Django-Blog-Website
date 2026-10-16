@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}Django Unchained{% endblock %}</title>
+  <title>{% block title %}Overprovisioned{% endblock %}</title>
   <link rel="icon" href="{% static 'img/favicon.ico' %}">
   <link rel="preload" href="{% static 'fonts/outfit-variable.woff2' %}" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{% static 'css/site.css' %}">
@@ -20,7 +20,7 @@
     <nav aria-label="Main" class="relative grid grid-cols-[1fr_auto] items-center rounded-full border border-border bg-card/85 py-2 pr-2 pl-5 shadow-sm backdrop-blur lg:grid-cols-[1fr_auto_1fr]">
       <a href="{% url 'home' %}" class="flex items-center gap-2 font-display text-lg font-medium tracking-tight">
         <svg class="size-6 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2.5" y="8" width="11" height="8" rx="4"/><rect x="10.5" y="8" width="11" height="8" rx="4"/></svg>
-        Django Unchained
+        Overprovisioned
       </a>
 
       <ul id="nav-menu" class="absolute top-full right-0 left-0 mt-2 hidden flex-col rounded-3xl border border-border bg-card p-3 shadow-lg lg:static lg:mt-0 lg:flex lg:flex-row lg:gap-8 lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none">
@@ -54,7 +54,7 @@
 
   <footer class="border-t border-border py-8">
     <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 text-sm text-muted">
-      <p>&copy; {% now "Y" %} Django Unchained</p>
+      <p>&copy; {% now "Y" %} Overprovisioned</p>
       <a href="https://github.com/aokugel/mysite" class="hover:text-ink">Source on GitHub</a>
     </div>
   </footer>

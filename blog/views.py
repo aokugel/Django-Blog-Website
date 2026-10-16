@@ -64,6 +64,6 @@ class PostViewSet(viewsets.ModelViewSet):
     serializer_class = PostSerializer
 
 class CommentViewSet(viewsets.ModelViewSet):
-    queryset = Comment.objects.all().order_by('post')
+    queryset = Comment.objects.filter(active=True).order_by('post')
     serializer_class = CommentSerializer
 

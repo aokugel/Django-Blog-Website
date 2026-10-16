@@ -111,4 +111,8 @@
   .form .errorlist {
     @apply mt-1 text-sm font-medium text-danger;
   }
+  /* Honeypot field (see CommentForm): hidden from people, filled in by bots. */
+  .form div:has(> [name="website"]) {
+    display: none;
+  }
 }

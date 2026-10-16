@@ -1,9 +1,18 @@
 import re
+import time
 
 from django.contrib.auth.models import User
+from django.core import signing
 from django.test import TestCase
 
+from .forms import SPAM_ERROR
 from .models import Comment, Post
+
+
+def comment_data(seconds_ago=10, **fields):
+    """Valid comment form data, as if the form was rendered `seconds_ago` (the spam time trap needs >= 3)."""
+    return {'name': 'Bob', 'email': 'bob@example.com', 'body': 'Hello',
+            'ts': signing.dumps(int(time.time()) - seconds_ago), **fields}
 
 
 class SiteTests(TestCase):
@@ -37,25 +46,30 @@ class SiteTests(TestCase):
         slugs = [p['slug'] for p in self.client.get('/api/posts/').json()]
         self.assertEqual(slugs, ['published'])
 
+    def test_api_lists_only_approved_comments(self):
+        Comment.objects.create(post=self.published, name='Spammer', email='s@example.com', body='spam', active=False)
+        names = [c['name'] for c in self.client.get('/api/comments/').json()]
+        self.assertEqual(names, ['Ann'])
+
     def test_api_hides_commenter_email(self):
         comments = self.client.get('/api/comments/').json()
         self.assertTrue(comments)
         self.assertTrue(all('email' not in c for c in comments))
 
     def test_comment_post_awaits_moderation(self):
-        self.client.post('/published/', {'name': 'Bob', 'email': 'bob@example.com', 'body': 'Hello'})
+        self.client.post('/published/', comment_data())
         comment = Comment.objects.get(name='Bob')
         self.assertEqual(comment.post, self.published)
         self.assertFalse(comment.active)
 
     def test_htmx_comment_post_returns_just_the_confirmation(self):
-        response = self.client.post('/published/', {'name': 'Bob', 'email': 'bob@example.com', 'body': 'Hello'}, HTTP_HX_REQUEST='true')
+        response = self.client.post('/published/', comment_data(), HTTP_HX_REQUEST='true')
         self.assertContains(response, 'Comment received')
         self.assertNotContains(response, '<html')
         self.assertIn('HX-Request', response['Vary'])
 
     def test_htmx_invalid_comment_returns_form_with_errors(self):
-        response = self.client.post('/published/', {'name': '', 'email': 'not-an-email', 'body': ''}, HTTP_HX_REQUEST='true')
+        response = self.client.post('/published/', comment_data(name='', email='not-an-email', body=''), HTTP_HX_REQUEST='true')
         self.assertContains(response, 'This field is required.')
         self.assertContains(response, 'Enter a valid email address.')
         self.assertNotContains(response, '<html')
@@ -85,7 +99,7 @@ class ReplyTests(TestCase):
         cls.top = Comment.objects.create(post=cls.post, name='Ann', email='a@example.com', body='Top', active=True)
 
     def reply(self, parent, slug='post', **headers):
-        return self.client.post(f'/{slug}/', {'name': 'Bob', 'email': 'b@example.com', 'body': 'A reply', 'parent': parent}, **headers)
+        return self.client.post(f'/{slug}/', comment_data(body='A reply', parent=parent), **headers)
 
     def test_reply_is_saved_under_its_parent_awaiting_moderation(self):
         response = self.reply(self.top.pk, HTTP_HX_REQUEST='true')
@@ -114,3 +128,35 @@ class ReplyTests(TestCase):
         Comment.objects.create(post=self.post, name='Cat', email='c@example.com', body='Second', active=True)
         ids = re.findall(r'\sid="([^"]+)"', self.client.get('/post/').content.decode())
         self.assertEqual(len(ids), len(set(ids)), [i for i in ids if ids.count(i) > 1])
+
+
+class SpamTrapTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        author = User.objects.create(username='author')
+        Post.objects.create(title='Post', slug='post', author=author, content='x', status=1)
+
+    def assert_rejected(self, data):
+        response = self.client.post('/post/', data, HTTP_HX_REQUEST='true')
+        self.assertContains(response, SPAM_ERROR.replace("'", '&#x27;'))
+        self.assertFalse(Comment.objects.exists())
+
+    def test_filled_honeypot_is_rejected(self):
+        self.assert_rejected(comment_data(website='https://spam.example'))
+
+    def test_submitting_too_fast_is_rejected(self):
+        self.assert_rejected(comment_data(seconds_ago=1))
+
+    def test_missing_or_forged_timestamp_is_rejected(self):
+        for ts in ('', 'not-signed', signing.dumps(0)[:-3] + 'abc'):
+            with self.subTest(ts=ts):
+                self.assert_rejected(comment_data(ts=ts))
+
+    def test_honeypot_is_rendered_but_hidden_from_keyboards(self):
+        html = self.client.get('/post/').content.decode()
+        self.assertRegex(html, r'<input[^>]*name="website"[^>]*tabindex="-1"|<input[^>]*tabindex="-1"[^>]*name="website"')
+
+    def test_normal_comment_still_goes_through(self):
+        response = self.client.post('/post/', comment_data(), HTTP_HX_REQUEST='true')
+        self.assertContains(response, 'Comment received')
+        self.assertEqual(Comment.objects.count(), 1)
