@@ -5,7 +5,7 @@
 {% if not page_obj.has_previous %}
 <section class="mx-auto w-full max-w-6xl px-4 pt-16 text-center motion-safe:animate-rise sm:pt-20">
   <h1 class="font-display text-5xl font-medium tracking-tight sm:text-7xl">Overprovisioned</h1>
-  <p class="mx-auto mt-4 max-w-md text-muted">When the entire industry is leveraged to their eyeballs.</p>
+  <p class="mx-auto mt-4 max-w-md text-muted">And leveraged to the gills</p>
   {% with latest=post_list.0 %}{% if latest %}
   <a href="{% url 'post_detail' latest.slug %}" class="mt-7 inline-flex items-center gap-3 rounded-full bg-primary py-1.5 pr-1.5 pl-5 text-sm font-medium text-primary-ink hover:opacity-90">
     Read the latest post
@@ -23,7 +23,7 @@
 
 {% block content %}
 <p class="inline-block rounded-full border border-border px-3 py-1 text-xs text-muted">// Latest posts //</p>
-<h2 class="mt-4 font-display text-3xl font-medium tracking-tight sm:text-4xl">Notes from building with Django and the cloud</h2>
+<h2 class="mt-4 font-display text-3xl font-medium tracking-tight sm:text-4xl">Notes from the Undercloud</h2>
 
 <ol class="mt-8 grid gap-4 sm:grid-cols-2">
   {% for post in post_list %}
