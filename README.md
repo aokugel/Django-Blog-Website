@@ -32,12 +32,12 @@ uv run python manage.py test
 Or run everything in Docker: `docker-compose up --build`. To add or upgrade a dependency, use `uv add <package>` or `uv lock --upgrade-package <package>`, and commit `uv.lock`.
 
 #### CSS
-Styles are [Tailwind CSS](https://tailwindcss.com/) built with the standalone CLI (no Node). The source is [static/css/input.css](static/css/input.css); the built `static/css/site.css` is committed, and CI fails if it is stale. Download the pinned CLI once (v4.3.3; use `tailwindcss-macos-x64` on Intel Macs, `tailwindcss-linux-x64` on Linux):
+Styles are [Tailwind CSS](https://tailwindcss.com/) built with the standalone CLI (no Node). The source is [assets/input.css](assets/input.css); the built `static/css/site.css` is committed, and CI fails if it is stale. Download the pinned CLI once (v4.3.3; use `tailwindcss-macos-x64` on Intel Macs, `tailwindcss-linux-x64` on Linux):
 
 ```sh
 curl -sSfL -o tailwindcss https://github.com/tailwindlabs/tailwindcss/releases/download/v4.3.3/tailwindcss-macos-arm64 && chmod +x tailwindcss
-./tailwindcss -i static/css/input.css -o static/css/site.css --minify          # build once
-./tailwindcss -i static/css/input.css -o static/css/site.css --minify --watch  # rebuild while editing templates
+./tailwindcss -i assets/input.css -o static/css/site.css --minify          # build once
+./tailwindcss -i assets/input.css -o static/css/site.css --minify --watch  # rebuild while editing templates
 ```
 
 Always build with `--minify` so the output matches CI. When upgrading Tailwind, change the version here and in [.github/workflows/css.yml](.github/workflows/css.yml) (including its SHA-256).

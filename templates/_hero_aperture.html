@@ -1,0 +1,43 @@
+{% comment %} Hero art: a doorway edged by a sliver of light. This file is the source drawing (originally aperture.svg,
+   widened and run off the bottom edge); colors come from the --ap-* variables in input.css. Dark mode is the original (a doorway
+   into shadow). In both themes faint smoke drifts inside the doorway (--ap-smoke); light mode adds a low, still fog
+   (--ap-haze turns it on). {% endcomment %}
+<svg viewBox="-300 -40 1800 600" preserveAspectRatio="xMidYMid slice" class="size-full" aria-hidden="true">
+  <defs>
+    <linearGradient id="ap-wall" x1="0" y1="0" x2="1" y2="0"><stop offset="0" style="stop-color:var(--ap-wall-a)"/><stop offset="1" style="stop-color:var(--ap-wall-b)"/></linearGradient>
+    <linearGradient id="ap-light" x1="0" y1="0" x2="1" y2="0"><stop offset="0" style="stop-color:var(--ap-light-a)"/><stop offset="1" style="stop-color:var(--ap-light-b)"/></linearGradient>
+    <radialGradient id="ap-inside" cx="0.5" cy="0.35" r="0.85">
+      <stop offset="0" style="stop-color:var(--ap-in-core)"/><stop offset="0.5" style="stop-color:var(--ap-in-mid)"/><stop offset="1" style="stop-color:var(--ap-in-edge)"/>
+    </radialGradient>
+    <filter id="ap-bloom" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="40"/></filter>
+    <!-- Fog: fractal noise turned into soft white wisps (alpha from the noise), slightly blurred. -->
+    <filter id="ap-fog" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.005 0.018" numOctaves="3" seed="11"/>
+      <feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 2.4 -0.8"/>
+      <feGaussianBlur stdDeviation="4"/>
+    </filter>
+    <!-- Smoke inside the doorway: finer noise than the fog, clipped to the opening. -->
+    <filter id="ap-smoke" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.011 0.028" numOctaves="4" seed="3"/>
+      <feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 2.2 -0.75"/>
+      <feGaussianBlur stdDeviation="3"/>
+    </filter>
+    <clipPath id="ap-inner"><path d="M496 104h219v456H496z"/></clipPath>
+    <!-- Fog sits low: densest at the bottom of the doorway, thinning upward and toward the sides. -->
+    <radialGradient id="ap-fog-fade" gradientUnits="userSpaceOnUse" cx="601" cy="560" r="360">
+      <stop offset="0" stop-color="#fff" stop-opacity="1"/><stop offset="0.6" stop-color="#fff" stop-opacity="0.55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="ap-fog-mask"><rect x="240" y="60" width="720" height="500" fill="url(#ap-fog-fade)"/></mask>
+  </defs>
+  <path style="fill:var(--ap-bg)" d="M-300 -40h1800v600H-300z"/>
+  <path fill="url(#ap-wall)" d="M382 -40h427v600H382z"/>
+  <ellipse cx="601" cy="260" rx="220" ry="220" fill="#fff" filter="url(#ap-bloom)" style="opacity:calc(var(--ap-haze) * 0.35)"/>
+  <path fill="url(#ap-inside)" d="M456 60h290v500H456z"/>
+  <rect x="496" y="104" width="219" height="456" clip-path="url(#ap-inner)" filter="url(#ap-smoke)" style="opacity:var(--ap-smoke)"/>
+  <path style="fill:var(--ap-jamb)" d="m456 60 40 44v456h-40z"/>
+  <path style="fill:var(--ap-lintel)" d="M456 60h290l-31 44H496z"/>
+  <path fill="url(#ap-light)" d="m715 104 31-44v500h-31z"/>
+  <path fill="none" style="stroke:var(--ap-light-b)" stroke-width="2" d="M715 104v456"/>
+  <path style="fill:var(--ap-spill)" d="M746 560h127L715 517z"/>
+  <rect x="240" y="60" width="720" height="500" filter="url(#ap-fog)" mask="url(#ap-fog-mask)" style="opacity:calc(var(--ap-haze) * 0.85)"/>
+</svg>

@@ -7,6 +7,11 @@ class PostAdmin(admin.ModelAdmin):
     search_fields = ['title', 'content']
     prepopulated_fields = {'slug':('title',)}
 
+    def get_form(self, request, obj=None, **kwargs):
+        kwargs['help_texts'] = {'content': 'Markdown: blank line between paragraphs, ## heading, - list, **bold**, '
+                                           '[link](https://…), ```python fenced code```. Raw HTML also works.'}
+        return super().get_form(request, obj, **kwargs)
+
 admin.site.register(Post, PostAdmin)
 
 @admin.register(Comment)

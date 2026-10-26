@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static blog_extras %}
 
 {% block hero %}
 {% if not page_obj.has_previous %}
@@ -15,7 +15,7 @@
   </a>
   {% endif %}{% endwith %}
   <div class="mt-12 h-48 overflow-hidden rounded-3xl border border-border bg-subtle sm:h-72">
-    <img src="{% static 'img/hero-lines.svg' %}" alt="" class="size-full object-cover">
+    {% include "_hero_aperture.html" %}
   </div>
 </section>
 {% endif %}
@@ -33,7 +33,7 @@
     <h3 class="mt-2 font-display font-medium tracking-tight {% if featured and not page_obj.has_previous %}text-2xl sm:text-3xl{% else %}text-xl{% endif %}">
       <a href="{% url 'post_detail' post.slug %}" class="after:absolute after:inset-0 focus-visible:outline-none">{{ post.title }}</a>
     </h3>
-    <p class="mt-2 line-clamp-3 leading-relaxed text-muted">{{ post.content|striptags|truncatewords:40 }}</p>
+    <p class="mt-2 line-clamp-3 leading-relaxed text-muted">{{ post.content|markdown|striptags|truncatewords:40 }}</p>
     {% if featured and not page_obj.has_previous %}
     <div class="-mx-6 mt-6 -mb-6 h-24 border-t border-border bg-subtle">
       <img src="{% static 'img/hero-lines.svg' %}" alt="" class="size-full object-cover">

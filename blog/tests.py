@@ -160,3 +160,32 @@ class SpamTrapTests(TestCase):
         response = self.client.post('/post/', comment_data(), HTTP_HX_REQUEST='true')
         self.assertContains(response, 'Comment received')
         self.assertEqual(Comment.objects.count(), 1)
+
+
+class MarkdownTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        author = User.objects.create(username='author')
+        Post.objects.create(title='MD', slug='md', author=author, status=1,
+                            content='First paragraph with **bold**.\n\n## Heading\n\n```python\nx = 1\n```')
+        Post.objects.create(title='Legacy', slug='legacy', author=author, status=1,
+                            content='<p>An older post written in <em>HTML</em>.</p>')
+
+    def test_markdown_post_renders_as_html(self):
+        response = self.client.get('/md/')
+        self.assertContains(response, '<p>First paragraph with <strong>bold</strong>.</p>', html=True)
+        self.assertContains(response, '<h2>Heading</h2>', html=True)
+        self.assertContains(response, '<code class="language-python">')
+
+    def test_html_posts_still_render(self):
+        self.assertContains(self.client.get('/legacy/'), '<p>An older post written in <em>HTML</em>.</p>', html=True)
+
+    def test_admin_shows_markdown_help(self):
+        self.client.force_login(User.objects.create_superuser('admin', 'admin@example.com', 'pw'))
+        self.assertContains(self.client.get('/admin/blog/post/add/'), 'Markdown: blank line between paragraphs')
+
+    def test_home_excerpt_is_plain_text(self):
+        html = self.client.get('/').content.decode()
+        self.assertIn('First paragraph with bold.', html)
+        self.assertNotIn('**bold**', html)
+        self.assertNotIn('## Heading', html)

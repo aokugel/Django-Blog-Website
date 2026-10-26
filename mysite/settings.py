@@ -152,11 +152,18 @@ REST_FRAMEWORK = {
 
 }
 
-# HTTPS hardening, on when HTTPS=1 (production, behind nginx's TLS). Off locally, where everything is
-# plain http. nginx already redirects http to https, so SECURE_SSL_REDIRECT isn't needed here.
+# Production-only behaviour, on when HTTPS=1 (behind nginx's TLS). Off locally, in tests and in CI.
+# nginx already redirects http to https, so SECURE_SSL_REDIRECT isn't needed here.
 if os.environ.get('HTTPS', '').lower() in ('1', 'true', 'yes'):
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_HSTS_SECONDS = 3600
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
+    # collectstatic writes content-hashed copies (site.4f1e9a2c.css) and {% static %} links to them, so
+    # browsers never reuse a stale cached file after a deploy. Requires collectstatic before restart,
+    # which deploy.sh does.
+    STORAGES = {
+        'default': {'BACKEND': 'django.core.files.storage.FileSystemStorage'},
+        'staticfiles': {'BACKEND': 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'},
+    }

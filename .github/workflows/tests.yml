@@ -1,0 +1,27 @@
+name: Tests
+
+# Runs the Django test suite against a real Postgres (same major version as production RDS),
+# and fails if a model change is missing its migration.
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: djangodb
+          POSTGRES_USER: djangodb_user
+          POSTGRES_PASSWORD: postgres
+        ports: ["5432:5432"]
+        options: --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      SECRET_KEY: ci-only-not-secret
+      DB_HOST: localhost
+    steps:
+    - uses: actions/checkout@v7
+    - uses: astral-sh/setup-uv@v10          # uv then installs the Python version in .python-version
+    - run: uv sync --frozen                  # exact versions from uv.lock; fails if it's out of date
+    - run: uv run python manage.py makemigrations --check --dry-run
+    - run: uv run python manage.py test

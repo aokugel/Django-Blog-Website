@@ -7,6 +7,7 @@ dependencies = [
     "djangorestframework>=3.18.3",
     "djangorestframework-simplejwt>=5.5.1",
     "gunicorn>=26.2.0",
+    "markdown>=3.11.2",
     "psycopg2-binary>=2.9.13",
     "python-dotenv>=1.2.4",
 ]

@@ -294,5 +294,18 @@
       "created_on": "2026-01-11T13:00:00Z",
       "active": false
     }
+  },
+  {
+    "model": "blog.post",
+    "pk": 906,
+    "fields": {
+      "title": "Sample: Markdown",
+      "slug": "sample-markdown",
+      "author": 900,
+      "content": "This post is written in **Markdown**, the way new posts are written in the admin.\n\n## A heading\n\nA paragraph with *emphasis*, `inline code`, and [a link](https://www.djangoproject.com/).\n\n- First item\n- Second item\n\n```python\ndef post_detail(request, slug):\n    return render(request, \"post_detail.html\")\n```\n\n| Column | Value |\n|---|---|\n| Format | Markdown |\n",
+      "status": 1,
+      "created_on": "2026-01-08T12:00:00Z",
+      "updated_on": "2026-01-08T12:00:00Z"
+    }
   }
 ]

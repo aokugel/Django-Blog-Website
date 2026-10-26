@@ -1,7 +1,7 @@
 /* Tailwind source. Build the committed static/css/site.css with:
-     ./tailwindcss -i static/css/input.css -o static/css/site.css --minify
+     ./tailwindcss -i assets/input.css -o static/css/site.css --minify
    (add --watch while editing templates). CI fails if site.css is stale. */
-@import "tailwindcss" source("../../templates");
+@import "tailwindcss" source("../templates");
 @plugin "@tailwindcss/typography";
 
 /* Dark mode follows a .dark class on <html>, set by the inline script in base.html. */
@@ -30,6 +30,9 @@
     --primary: #141414;
     --primary-ink: #ffffff;
     --danger: #b42318;
+    --ap-bg: #ededf0; --ap-wall-a: #e4e4e8; --ap-wall-b: #d2d2d8; --ap-jamb: #e6e6ea; --ap-lintel: #eeeef1;
+    --ap-light-a: #efeff2; --ap-light-b: #c8c8cf; --ap-spill: rgb(255 255 255 / 0.6);
+    --ap-in-core: #f3f3f5; --ap-in-mid: #e5e5ea; --ap-in-edge: #d0d0d7; --ap-smoke: 0.05; --ap-haze: 1;
   }
   .dark {
     --bg: #0e0e11;
@@ -43,6 +46,9 @@
     --primary: #f4f4f5;
     --primary-ink: #0e0e11;
     --danger: #ffa195;
+    --ap-bg: #101012; --ap-wall-a: #161619; --ap-wall-b: #38383f; --ap-jamb: #45434d; --ap-lintel: #29282f;
+    --ap-light-a: #18171f; --ap-light-b: #aaa6fa; --ap-spill: rgb(36 33 47 / 0.6);
+    --ap-in-core: #101013; --ap-in-mid: #0c0c0f; --ap-in-edge: #08080a; --ap-smoke: 0.05; --ap-haze: 0;
     color-scheme: dark;
   }
   body {
